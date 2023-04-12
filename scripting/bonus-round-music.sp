@@ -4,6 +4,7 @@
 
 #include "brm/cookie"
 #include "brm/menu"
+#include "brm/settings"
 #include "brm/sound"
 #include "brm/use-case"
 

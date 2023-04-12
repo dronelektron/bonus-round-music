@@ -30,10 +30,13 @@ void UseCase_PlayMusicForClient(int client, int winTeam) {
 
     Cookie_GetMusicType(client, musicType);
 
-    if (strcmp(musicType, COOKIE_MUSIC_TYPE_DEFAULT) == 0) {
-        Sound_PlayWinMusic(client, winTeam);
-    } else {
+    bool playCustomMusic = strcmp(musicType, COOKIE_MUSIC_TYPE_CUSTOM) == 0;
+    bool areSoundsDownloaded = Settings_AreSoundsDownloaded(client);
+
+    if (playCustomMusic && areSoundsDownloaded) {
         Sound_PlayCustomMusic(client);
+    } else {
+        Sound_PlayWinMusic(client, winTeam);
     }
 }
 
