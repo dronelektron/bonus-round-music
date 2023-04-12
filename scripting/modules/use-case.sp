@@ -26,5 +26,19 @@ void UseCase_PlayMusicForClient(int client, int winTeam) {
         return;
     }
 
-    Sound_PlayWinMusic(client, winTeam);
+    char musicType[COOKIE_VALUE_SIZE];
+
+    Cookie_GetMusicType(client, musicType);
+
+    if (strcmp(musicType, COOKIE_MUSIC_TYPE_DEFAULT) == 0) {
+        Sound_PlayWinMusic(client, winTeam);
+    } else {
+        Sound_PlayCustomMusic(client);
+    }
+}
+
+bool UseCase_StringEndsWith(const char[] string, const char[] subString) {
+    int index = StrContains(string, subString);
+
+    return index == strlen(string) - strlen(subString);
 }

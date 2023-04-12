@@ -1,0 +1,17 @@
+"Phrases"
+{
+    "Bonus round music"
+    {
+        "en"    "Bonus round music"
+    }
+
+    "Music type default"
+    {
+        "en"    "Default"
+    }
+
+    "Music type custom"
+    {
+        "en"    "Custom"
+    }
+}
