@@ -15,11 +15,13 @@ void Sound_PlayWinMusic(int client, int winTeam) {
 }
 
 void Sound_PrecacheMusic() {
-    char musicPath[PLATFORM_MAX_PATH];
+    char musicPathPartial[PLATFORM_MAX_PATH];
+    char musicPathFull[PLATFORM_MAX_PATH];
 
-    Format(musicPath, sizeof(musicPath), "sound/%s", SOUND_DIRECTORY);
+    Variable_MusicPath(musicPathPartial);
+    Format(musicPathFull, sizeof(musicPathFull), "sound/%s", musicPathPartial);
 
-    DirectoryListing directory = OpenDirectory(musicPath);
+    DirectoryListing directory = OpenDirectory(musicPathFull);
     char filePathFull[PLATFORM_MAX_PATH];
     char filePathPartial[PLATFORM_MAX_PATH];
     char fileName[PLATFORM_MAX_PATH];
@@ -35,10 +37,10 @@ void Sound_PrecacheMusic() {
             continue;
         }
 
-        Format(filePathFull, sizeof(filePathFull), "%s/%s", musicPath, fileName);
-        Format(filePathPartial, sizeof(filePathPartial), "%s/%s", SOUND_DIRECTORY, fileName);
+        Format(filePathFull, sizeof(filePathFull), "%s/%s", musicPathFull, fileName);
+        Format(filePathPartial, sizeof(filePathPartial), "%s/%s", musicPathPartial, fileName);
         AddFileToDownloadsTable(filePathFull);
-        PrecacheSound(filePathPartial, PRELOAD_YES);
+        PrecacheSound(filePathPartial);
 
         g_music.PushString(filePathPartial);
     }

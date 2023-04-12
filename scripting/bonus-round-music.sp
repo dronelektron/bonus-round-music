@@ -8,12 +8,15 @@
 #include "brm/sound"
 #include "brm/use-case"
 
+#include "modules/console-variable.sp"
 #include "modules/cookie.sp"
 #include "modules/event.sp"
 #include "modules/menu.sp"
 #include "modules/settings.sp"
 #include "modules/sound.sp"
 #include "modules/use-case.sp"
+
+#define AUTO_CREATE_YES true
 
 public Plugin myinfo = {
     name = "Bonus round music",
@@ -24,15 +27,17 @@ public Plugin myinfo = {
 };
 
 public void OnPluginStart() {
+    Variable_Create();
     Cookie_Create();
     Event_Create();
     Sound_Create();
     Menu_AddToPreferences();
     CookieLateLoad();
     LoadTranslations("bonus-round-music.phrases");
+    AutoExecConfig(AUTO_CREATE_YES, "bonus-round-music");
 }
 
-public void OnMapStart() {
+public void OnConfigsExecuted() {
     Sound_PrecacheMusic();
 }
 
