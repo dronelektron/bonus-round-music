@@ -45,3 +45,11 @@ bool UseCase_StringEndsWith(const char[] string, const char[] subString) {
 
     return index == strlen(string) - strlen(subString);
 }
+
+void UseCase_FindMusic() {
+    Sound_PrecacheMusic();
+
+    int soundsAmount = Sound_Size();
+
+    Random_Create(soundsAmount);
+}

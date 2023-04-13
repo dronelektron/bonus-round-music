@@ -6,6 +6,10 @@ void Sound_Create() {
     g_music = new ArrayList(blockSize);
 }
 
+int Sound_Size() {
+    return g_music.Length;
+}
+
 void Sound_PlayWinMusic(int client, int winTeam) {
     if (winTeam == TEAM_ALLIES) {
         EmitGameSoundToClient(client, SOUND_GAME_WIN_US);
@@ -47,7 +51,7 @@ void Sound_PrecacheMusic() {
 }
 
 void Sound_PlayCustomMusic(int client) {
-    int index = GetRandomInt(0, g_music.Length - 1);
+    int index = Random_GetRandomIndex();
     char filePath[PLATFORM_MAX_PATH];
 
     g_music.GetString(index, filePath, sizeof(filePath));

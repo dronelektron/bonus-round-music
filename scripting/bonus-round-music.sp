@@ -12,6 +12,7 @@
 #include "modules/cookie.sp"
 #include "modules/event.sp"
 #include "modules/menu.sp"
+#include "modules/random.sp"
 #include "modules/settings.sp"
 #include "modules/sound.sp"
 #include "modules/use-case.sp"
@@ -38,7 +39,7 @@ public void OnPluginStart() {
 }
 
 public void OnConfigsExecuted() {
-    Sound_PrecacheMusic();
+    UseCase_FindMusic();
 }
 
 public void OnClientConnected(int client) {
