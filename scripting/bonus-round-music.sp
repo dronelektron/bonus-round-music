@@ -46,7 +46,7 @@ public void OnClientConnected(int client) {
 }
 
 public void OnClientPostAdminCheck(int client) {
-    Settings_Refresh(client);
+    Settings_Query(client);
 }
 
 public void OnClientCookiesCached(int client) {

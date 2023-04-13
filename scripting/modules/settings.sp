@@ -1,7 +1,7 @@
 static bool g_isPlayWinMusic[MAXPLAYERS + 1] = {true, ...};
 static bool g_areSoundsDownloaded[MAXPLAYERS + 1] = {true, ...};
 
-void Settings_Refresh(int client) {
+void Settings_Query(int client) {
     QueryClientConVar(client, "dod_playwinmusic", Settings_Result, SettingsType_PlayWinMusic);
     QueryClientConVar(client, "cl_downloadfilter", Settings_Result, SettingsType_DownloadFilter);
 }
