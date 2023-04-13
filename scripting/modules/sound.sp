@@ -47,6 +47,14 @@ void Sound_PrecacheMusic() {
         PrecacheSound(filePathPartial);
 
         g_music.PushString(filePathPartial);
+
+        LogMessage("Added '%s' to list", fileName);
+    }
+
+    if (g_music.Length == 0) {
+        LogMessage("Files not found");
+    } else {
+        LogMessage("Total files: %d", g_music.Length);
     }
 }
 
