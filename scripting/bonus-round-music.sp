@@ -14,6 +14,7 @@
 #include "modules/menu.sp"
 #include "modules/random.sp"
 #include "modules/settings.sp"
+#include "modules/sound-list.sp"
 #include "modules/sound.sp"
 #include "modules/use-case.sp"
 
@@ -31,8 +32,8 @@ public void OnPluginStart() {
     Variable_Create();
     Cookie_Create();
     Event_Create();
-    Sound_Create();
     Menu_AddToPreferences();
+    SoundList_Create();
     CookieLateLoad();
     LoadTranslations("bonus-round-music.phrases");
     AutoExecConfig(AUTO_CREATE_YES, "bonus-round-music");

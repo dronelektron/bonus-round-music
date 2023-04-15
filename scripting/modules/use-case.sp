@@ -34,9 +34,46 @@ void UseCase_PlayMusicForClient(int client, int winTeam) {
     bool areSoundsDownloaded = Settings_AreSoundsDownloaded(client);
 
     if (playCustomMusic && areSoundsDownloaded) {
-        Sound_PlayCustomMusic(client);
+        int soundIndex = Random_GetRandomIndex();
+
+        Sound_PlayCustomMusic(client, soundIndex);
     } else {
         Sound_PlayWinMusic(client, winTeam);
+    }
+}
+
+void UseCase_FindMusic() {
+    char musicPath[PLATFORM_MAX_PATH];
+
+    Sound_GetMusicPath(musicPath);
+
+    DirectoryListing directory = OpenDirectory(musicPath);
+    char fileName[PLATFORM_MAX_PATH];
+    FileType fileType;
+
+    SoundList_Clear();
+
+    while (directory.GetNext(fileName, sizeof(fileName), fileType)) {
+        bool isDirectory = fileType == FileType_Directory;
+        bool isNotMp3 = !UseCase_StringEndsWith(fileName, ".mp3");
+
+        if (isDirectory || isNotMp3) {
+            continue;
+        }
+
+        Sound_AddToDownloads(fileName);
+        Sound_Precache(fileName);
+        SoundList_Add(fileName);
+        LogMessage("Added '%s'", fileName);
+    }
+
+    int soundsAmount = SoundList_Size();
+
+    if (soundsAmount == 0) {
+        LogMessage("Files not found");
+    } else {
+        Random_Create(soundsAmount);
+        LogMessage("Total files: %d", soundsAmount);
     }
 }
 
@@ -44,12 +81,4 @@ bool UseCase_StringEndsWith(const char[] string, const char[] subString) {
     int index = StrContains(string, subString);
 
     return index == strlen(string) - strlen(subString);
-}
-
-void UseCase_FindMusic() {
-    Sound_PrecacheMusic();
-
-    int soundsAmount = Sound_Size();
-
-    Random_Create(soundsAmount);
 }

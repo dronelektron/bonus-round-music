@@ -1,15 +1,3 @@
-static ArrayList g_music;
-
-void Sound_Create() {
-    int blockSize = ByteCountToCells(PLATFORM_MAX_PATH);
-
-    g_music = new ArrayList(blockSize);
-}
-
-int Sound_Size() {
-    return g_music.Length;
-}
-
 void Sound_PlayWinMusic(int client, int winTeam) {
     if (winTeam == TEAM_ALLIES) {
         EmitGameSoundToClient(client, SOUND_GAME_WIN_US);
@@ -18,51 +6,46 @@ void Sound_PlayWinMusic(int client, int winTeam) {
     }
 }
 
-void Sound_PrecacheMusic() {
-    char musicPathPartial[PLATFORM_MAX_PATH];
-    char musicPathFull[PLATFORM_MAX_PATH];
-
-    Variable_MusicPath(musicPathPartial);
-    Format(musicPathFull, sizeof(musicPathFull), "sound/%s", musicPathPartial);
-
-    DirectoryListing directory = OpenDirectory(musicPathFull);
-    char filePathFull[PLATFORM_MAX_PATH];
-    char filePathPartial[PLATFORM_MAX_PATH];
+void Sound_PlayCustomMusic(int client, int soundIndex) {
     char fileName[PLATFORM_MAX_PATH];
-    FileType fileType;
+    char relativePath[PLATFORM_MAX_PATH];
 
-    g_music.Clear();
-
-    while (directory.GetNext(fileName, sizeof(fileName), fileType)) {
-        bool isDirectory = fileType == FileType_Directory;
-        bool isNotMp3 = !UseCase_StringEndsWith(fileName, ".mp3");
-
-        if (isDirectory || isNotMp3) {
-            continue;
-        }
-
-        Format(filePathFull, sizeof(filePathFull), "%s/%s", musicPathFull, fileName);
-        Format(filePathPartial, sizeof(filePathPartial), "%s/%s", musicPathPartial, fileName);
-        AddFileToDownloadsTable(filePathFull);
-        PrecacheSound(filePathPartial);
-
-        g_music.PushString(filePathPartial);
-
-        LogMessage("Added '%s' to list", fileName);
-    }
-
-    if (g_music.Length == 0) {
-        LogMessage("Files not found");
-    } else {
-        LogMessage("Total files: %d", g_music.Length);
-    }
+    SoundList_Get(soundIndex, fileName);
+    Sound_GetRelativePath(relativePath, fileName);
+    EmitSoundToClient(client, relativePath);
 }
 
-void Sound_PlayCustomMusic(int client) {
-    int index = Random_GetRandomIndex();
-    char filePath[PLATFORM_MAX_PATH];
+void Sound_AddToDownloads(const char[] fileName) {
+    char fullPath[PLATFORM_MAX_PATH];
 
-    g_music.GetString(index, filePath, sizeof(filePath));
+    Sound_GetFullPath(fullPath, fileName);
+    AddFileToDownloadsTable(fullPath);
+}
 
-    EmitSoundToClient(client, filePath);
+void Sound_Precache(const char[] fileName) {
+    char relativePath[PLATFORM_MAX_PATH];
+
+    Sound_GetRelativePath(relativePath, fileName);
+    PrecacheSound(relativePath);
+}
+
+void Sound_GetMusicPath(char[] path) {
+    char relativePath[PLATFORM_MAX_PATH];
+
+    Variable_MusicPath(relativePath);
+    Format(path, PLATFORM_MAX_PATH, "sound/%s", relativePath);
+}
+
+void Sound_GetFullPath(char[] path, const char[] fileName) {
+    char relativePath[PLATFORM_MAX_PATH];
+
+    Sound_GetRelativePath(relativePath, fileName);
+    Format(path, PLATFORM_MAX_PATH, "sound/%s", relativePath);
+}
+
+void Sound_GetRelativePath(char[] path, const char[] fileName) {
+    char relativePath[PLATFORM_MAX_PATH];
+
+    Variable_MusicPath(relativePath);
+    Format(path, PLATFORM_MAX_PATH, "%s/%s", relativePath, fileName);
 }
