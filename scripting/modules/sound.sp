@@ -1,9 +1,7 @@
 void Sound_PlayDefaultMusic(int client, int winTeam) {
-    if (winTeam == TEAM_ALLIES) {
-        EmitGameSoundToClient(client, SOUND_GAME_WIN_US);
-    } else {
-        EmitGameSoundToClient(client, SOUND_GAME_WIN_GERMAN);
-    }
+    bool isUsWin = winTeam == TEAM_ALLIES;
+
+    EmitGameSoundToClient(client, isUsWin ? SOUND_GAME_WIN_US : SOUND_GAME_WIN_GERMAN);
 }
 
 void Sound_PlayCustomMusic(int client, int soundIndex) {
