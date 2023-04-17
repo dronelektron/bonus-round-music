@@ -1,7 +1,7 @@
 static ConVar g_musicPath;
 
 void Variable_Create() {
-    g_musicPath = CreateConVar("sm_bonusroundmusic_path", "bonus-round-music", "The path to custom music");
+    g_musicPath = CreateConVar("sm_bonusroundmusic_path", "brm", "The path to custom music");
 }
 
 void Variable_MusicPath(char[] musicPath) {
