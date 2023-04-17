@@ -31,7 +31,12 @@ void Sound_GetMusicPath(char[] path) {
     char relativePath[PLATFORM_MAX_PATH];
 
     Variable_MusicPath(relativePath);
-    Format(path, PLATFORM_MAX_PATH, "sound/%s", relativePath);
+
+    if (UseCase_IsStringEmpty(relativePath)) {
+        Format(path, PLATFORM_MAX_PATH, "sound");
+    } else {
+        Format(path, PLATFORM_MAX_PATH, "sound/%s", relativePath);
+    }
 }
 
 void Sound_GetFullPath(char[] path, const char[] fileName) {
@@ -45,5 +50,10 @@ void Sound_GetRelativePath(char[] path, const char[] fileName) {
     char relativePath[PLATFORM_MAX_PATH];
 
     Variable_MusicPath(relativePath);
-    Format(path, PLATFORM_MAX_PATH, "%s/%s", relativePath, fileName);
+
+    if (UseCase_IsStringEmpty(relativePath)) {
+        Format(path, PLATFORM_MAX_PATH, "%s", fileName);
+    } else {
+        Format(path, PLATFORM_MAX_PATH, "%s/%s", relativePath, fileName);
+    }
 }

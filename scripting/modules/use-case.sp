@@ -82,3 +82,7 @@ bool UseCase_StringEndsWith(const char[] string, const char[] subString) {
 
     return index == strlen(string) - strlen(subString);
 }
+
+bool UseCase_IsStringEmpty(const char[] string) {
+    return strlen(string) == 0;
+}
