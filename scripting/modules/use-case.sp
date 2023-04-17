@@ -38,7 +38,7 @@ void UseCase_PlayMusicForClient(int client, int winTeam) {
 
         Sound_PlayCustomMusic(client, soundIndex);
     } else {
-        Sound_PlayWinMusic(client, winTeam);
+        Sound_PlayDefaultMusic(client, winTeam);
     }
 }
 

@@ -1,4 +1,4 @@
-void Sound_PlayWinMusic(int client, int winTeam) {
+void Sound_PlayDefaultMusic(int client, int winTeam) {
     if (winTeam == TEAM_ALLIES) {
         EmitGameSoundToClient(client, SOUND_GAME_WIN_US);
     } else {
