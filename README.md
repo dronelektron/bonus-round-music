@@ -13,7 +13,8 @@ Allows you to play random music at the end of the round
 
 ### Notes
 
-* The file name must be written in lower case
+* File name must contain lowercase letters
 * Supported formats: mp3
 * Recommended bitrate: 128 kbps
 * The new version of the file must have a unique name
+* Nested directories are not supported
