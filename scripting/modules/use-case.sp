@@ -52,6 +52,7 @@ void UseCase_FindMusic() {
     FileType fileType;
 
     SoundList_Clear();
+    LogMessage("Path for music '%s'", musicPath);
 
     while (directory.GetNext(fileName, sizeof(fileName), fileType)) {
         bool isDirectory = fileType == FileType_Directory;
