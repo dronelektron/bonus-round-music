@@ -1,6 +1,6 @@
 # Bonus round music
 
-Allows you to play random music at the end of the round
+Allows you to play custom music at the end of the round
 
 ### Supported Games
 
@@ -16,5 +16,6 @@ Allows you to play random music at the end of the round
 * File name must contain lowercase letters
 * Supported formats: mp3
 * Recommended bitrate: 128 kbps
+* Recommended music duration: `dod_bonusroundtime` + 5 seconds
 * The new version of the file must have a unique name
 * Nested directories are not supported
