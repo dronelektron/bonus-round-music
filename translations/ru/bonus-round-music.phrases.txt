@@ -1,0 +1,17 @@
+"Phrases"
+{
+    "Bonus round music"
+    {
+        "ru"    "Музыка в конце раунда"
+    }
+
+    "Music type default"
+    {
+        "ru"    "Стандартная"
+    }
+
+    "Music type custom"
+    {
+        "ru"    "Кастомная"
+    }
+}
