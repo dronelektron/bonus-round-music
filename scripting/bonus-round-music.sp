@@ -25,7 +25,7 @@ public Plugin myinfo = {
     name = "Bonus round music",
     author = "Dron-elektron",
     description = "Allows you to play custom music at the end of the round",
-    version = "0.1.0",
+    version = "0.2.0",
     url = "https://github.com/dronelektron/bonus-round-music"
 };
 
@@ -37,7 +37,6 @@ public void OnPluginStart() {
     Storage_BuildConfigPath();
     CookieLateLoad();
     LoadTranslations("bonus-round-music.phrases");
-    AutoExecConfig(AUTO_CREATE_YES, "bonus-round-music");
 }
 
 public void OnMapStart() {
