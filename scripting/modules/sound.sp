@@ -24,13 +24,13 @@ void Sound_Precache(const char[] fileName) {
     char relativePath[PLATFORM_MAX_PATH];
 
     Sound_GetRelativePath(relativePath, fileName);
-    PrecacheSound(relativePath);
+    PrecacheSound(relativePath, PRELOAD_YES);
 }
 
 void Sound_GetMusicPath(char[] path) {
     char relativePath[PLATFORM_MAX_PATH];
 
-    Variable_MusicPath(relativePath);
+    Storage_GetMusicPath(relativePath);
 
     if (UseCase_IsStringEmpty(relativePath)) {
         Format(path, PLATFORM_MAX_PATH, "sound");
@@ -49,7 +49,7 @@ void Sound_GetFullPath(char[] path, const char[] fileName) {
 void Sound_GetRelativePath(char[] path, const char[] fileName) {
     char relativePath[PLATFORM_MAX_PATH];
 
-    Variable_MusicPath(relativePath);
+    Storage_GetMusicPath(relativePath);
 
     if (UseCase_IsStringEmpty(relativePath)) {
         Format(path, PLATFORM_MAX_PATH, "%s", fileName);
