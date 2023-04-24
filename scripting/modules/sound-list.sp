@@ -21,3 +21,11 @@ void SoundList_Add(const char[] fileName) {
 void SoundList_Get(int index, char[] fileName) {
     g_sounds.GetString(index, fileName, PLATFORM_MAX_PATH);
 }
+
+ArrayList SoundList_ToSortedList() {
+    ArrayList list = g_sounds.Clone();
+
+    list.Sort(Sort_Ascending, Sort_String);
+
+    return list;
+}

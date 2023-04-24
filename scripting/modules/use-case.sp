@@ -50,6 +50,7 @@ void UseCase_FindMusic() {
     DirectoryListing directory = OpenDirectory(musicPath);
     char fileName[PLATFORM_MAX_PATH];
     FileType fileType;
+    ArrayList previousList = SoundList_ToSortedList();
 
     SoundList_Clear();
     LogMessage("Path for music '%s'", musicPath);
@@ -69,13 +70,23 @@ void UseCase_FindMusic() {
     }
 
     int soundsAmount = SoundList_Size();
+    ArrayList currentList = SoundList_ToSortedList();
 
     if (soundsAmount == 0) {
         LogMessage("Files not found");
     } else {
-        Random_Create(soundsAmount);
         LogMessage("Total files: %d", soundsAmount);
+
+        if (UseCase_AreSoundListsEqual(previousList, currentList)) {
+            LogMessage("Sound list is not changed");
+        } else {
+            Random_Create(soundsAmount);
+            LogMessage("Sound list is changed");
+        }
     }
+
+    delete previousList;
+    delete currentList;
 }
 
 bool UseCase_StringEndsWith(const char[] string, const char[] subString) {
@@ -86,4 +97,24 @@ bool UseCase_StringEndsWith(const char[] string, const char[] subString) {
 
 bool UseCase_IsStringEmpty(const char[] string) {
     return strlen(string) == 0;
+}
+
+bool UseCase_AreSoundListsEqual(ArrayList previousList, ArrayList currentList) {
+    if (previousList.Length != currentList.Length) {
+        return false;
+    }
+
+    char previousFileName[PLATFORM_MAX_PATH];
+    char currentFileName[PLATFORM_MAX_PATH];
+
+    for (int i = 0; i < previousList.Length; i++) {
+        previousList.GetString(i, previousFileName, PLATFORM_MAX_PATH);
+        currentList.GetString(i, currentFileName, PLATFORM_MAX_PATH);
+
+        if (strcmp(previousFileName, currentFileName) != 0) {
+            return false;
+        }
+    }
+
+    return true;
 }
