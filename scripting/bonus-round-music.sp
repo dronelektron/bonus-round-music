@@ -2,6 +2,8 @@
 #include <sdktools>
 #include <clientprefs>
 
+#include "morecolors"
+
 #include "brm/cookie"
 #include "brm/menu"
 #include "brm/settings"
@@ -9,9 +11,11 @@
 #include "brm/storage"
 #include "brm/use-case"
 
+#include "modules/console-variable.sp"
 #include "modules/cookie.sp"
 #include "modules/event.sp"
 #include "modules/menu.sp"
+#include "modules/message.sp"
 #include "modules/random.sp"
 #include "modules/settings.sp"
 #include "modules/sound-list.sp"
@@ -25,11 +29,12 @@ public Plugin myinfo = {
     name = "Bonus round music",
     author = "Dron-elektron",
     description = "Allows you to play custom music at the end of the round",
-    version = "0.2.0",
+    version = "0.3.0",
     url = "https://github.com/dronelektron/bonus-round-music"
 };
 
 public void OnPluginStart() {
+    Variable_Create();
     Cookie_Create();
     Event_Create();
     Menu_AddToPreferences();

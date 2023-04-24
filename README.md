@@ -11,6 +11,10 @@ Allows you to play custom music at the end of the round
 * Download latest [release](https://github.com/dronelektron/bonus-round-music/releases) (compiled for SourceMod 1.11)
 * Extract "plugins" and "translations" folders to "addons/sourcemod" folder of your server
 
+### Console Variables
+
+* sm_bonusroundmusic_show_song_name - Show song name [default: "1"]
+
 ### Notes
 
 * File name must contain lowercase letters

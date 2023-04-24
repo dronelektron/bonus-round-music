@@ -1,5 +1,16 @@
 "Phrases"
 {
+    "Prefix"
+    {
+        "en"    "{haunted}[Bonus round music]{default} "
+    }
+
+    "Now playing"
+    {
+        "#format"   "{1:s}"
+        "en"    "Now playing {wheat}{1}"
+    }
+
     "Bonus round music"
     {
         "en"    "Bonus round music"
