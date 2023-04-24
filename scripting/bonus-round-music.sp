@@ -2,6 +2,8 @@
 #include <sdktools>
 #include <clientprefs>
 
+#include "morecolors"
+
 #include "brm/cookie"
 #include "brm/menu"
 #include "brm/settings"
@@ -9,9 +11,11 @@
 #include "brm/storage"
 #include "brm/use-case"
 
+#include "modules/console-variable.sp"
 #include "modules/cookie.sp"
 #include "modules/event.sp"
 #include "modules/menu.sp"
+#include "modules/message.sp"
 #include "modules/random.sp"
 #include "modules/settings.sp"
 #include "modules/sound-list.sp"
@@ -30,6 +34,7 @@ public Plugin myinfo = {
 };
 
 public void OnPluginStart() {
+    Variable_Create();
     Cookie_Create();
     Event_Create();
     Menu_AddToPreferences();

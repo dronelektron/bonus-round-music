@@ -1,5 +1,10 @@
 "Phrases"
 {
+    "Now playing"
+    {
+        "ru"    "Сейчас играет {wheat}{1}"
+    }
+
     "Bonus round music"
     {
         "ru"    "Музыка в конце раунда"

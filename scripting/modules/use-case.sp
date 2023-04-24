@@ -14,14 +14,16 @@ void UseCase_RefreshSettings() {
 }
 
 void UseCase_PlayMusic(int winTeam) {
+    bool showSongName = Variable_ShowSongName();
+
     for (int client = 1; client <= MaxClients; client++) {
         if (IsClientInGame(client)) {
-            UseCase_PlayMusicForClient(client, winTeam);
+            UseCase_PlayMusicForClient(client, winTeam, showSongName);
         }
     }
 }
 
-void UseCase_PlayMusicForClient(int client, int winTeam) {
+void UseCase_PlayMusicForClient(int client, int winTeam, bool showSongName) {
     if (!Settings_IsPlayWinMusic(client)) {
         return;
     }
@@ -37,6 +39,14 @@ void UseCase_PlayMusicForClient(int client, int winTeam) {
         int soundIndex = Random_GetRandomIndex();
 
         Sound_PlayCustomMusic(client, soundIndex);
+
+        if (showSongName) {
+            char fileName[PLATFORM_MAX_PATH];
+
+            SoundList_Get(soundIndex, fileName);
+            UseCase_RemoveFileExtension(fileName);
+            Message_NowPlaying(client, fileName);
+        }
     } else {
         Sound_PlayDefaultMusic(client, winTeam);
     }
@@ -57,7 +67,7 @@ void UseCase_FindMusic() {
 
     while (directory.GetNext(fileName, sizeof(fileName), fileType)) {
         bool isDirectory = fileType == FileType_Directory;
-        bool isNotMp3 = !UseCase_StringEndsWith(fileName, ".mp3");
+        bool isNotMp3 = !UseCase_StringEndsWith(fileName, EXTENSION_MP3);
 
         if (isDirectory || isNotMp3) {
             continue;
@@ -97,6 +107,12 @@ bool UseCase_StringEndsWith(const char[] string, const char[] subString) {
 
 bool UseCase_IsStringEmpty(const char[] string) {
     return strlen(string) == 0;
+}
+
+void UseCase_RemoveFileExtension(char[] fileName) {
+    int lastIndex = strlen(fileName) - strlen(EXTENSION_MP3);
+
+    fileName[lastIndex] = '\0';
 }
 
 bool UseCase_AreSoundListsEqual(ArrayList previousList, ArrayList currentList) {
