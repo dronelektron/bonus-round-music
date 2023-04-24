@@ -42,6 +42,7 @@ public void OnPluginStart() {
     Storage_BuildConfigPath();
     CookieLateLoad();
     LoadTranslations("bonus-round-music.phrases");
+    AutoExecConfig(AUTO_CREATE_YES, "bonus-round-music");
 }
 
 public void OnMapStart() {
