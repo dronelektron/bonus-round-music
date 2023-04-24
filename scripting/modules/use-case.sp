@@ -14,16 +14,17 @@ void UseCase_RefreshSettings() {
 }
 
 void UseCase_PlayMusic(int winTeam) {
+    int soundIndex = Random_GetRandomIndex();
     bool showSongName = Variable_ShowSongName();
 
     for (int client = 1; client <= MaxClients; client++) {
         if (IsClientInGame(client)) {
-            UseCase_PlayMusicForClient(client, winTeam, showSongName);
+            UseCase_PlayMusicForClient(client, winTeam, soundIndex, showSongName);
         }
     }
 }
 
-void UseCase_PlayMusicForClient(int client, int winTeam, bool showSongName) {
+void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex, bool showSongName) {
     if (!Settings_IsPlayWinMusic(client)) {
         return;
     }
@@ -36,8 +37,6 @@ void UseCase_PlayMusicForClient(int client, int winTeam, bool showSongName) {
     bool areSoundsDownloaded = Settings_AreSoundsDownloaded(client);
 
     if (playCustomMusic && areSoundsDownloaded) {
-        int soundIndex = Random_GetRandomIndex();
-
         Sound_PlayCustomMusic(client, soundIndex);
 
         if (showSongName) {
