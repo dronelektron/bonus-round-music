@@ -54,7 +54,7 @@ public void OnClientConnected(int client) {
 }
 
 public void OnClientPostAdminCheck(int client) {
-    Settings_Query(client);
+    Settings_Query(client, SettingsType_DownloadFilter);
 }
 
 public void OnClientCookiesCached(int client) {

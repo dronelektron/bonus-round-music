@@ -8,7 +8,7 @@ bool UseCase_IsSupressGameSound(const char[] gameSound) {
 void UseCase_RefreshSettings() {
     for (int client = 1; client <= MaxClients; client++) {
         if (IsClientInGame(client)) {
-            Settings_Query(client);
+            Settings_Query(client, SettingsType_PlayWinMusic);
         }
     }
 }
