@@ -29,7 +29,7 @@ public Plugin myinfo = {
     name = "Bonus round music",
     author = "Dron-elektron",
     description = "Allows you to play custom music at the end of the round",
-    version = "0.3.2",
+    version = "0.3.3",
     url = "https://github.com/dronelektron/bonus-round-music"
 };
 
