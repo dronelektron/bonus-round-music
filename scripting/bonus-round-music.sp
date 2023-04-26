@@ -29,7 +29,7 @@ public Plugin myinfo = {
     name = "Bonus round music",
     author = "Dron-elektron",
     description = "Allows you to play custom music at the end of the round",
-    version = "0.3.2",
+    version = "0.3.3",
     url = "https://github.com/dronelektron/bonus-round-music"
 };
 
@@ -54,7 +54,7 @@ public void OnClientConnected(int client) {
 }
 
 public void OnClientPostAdminCheck(int client) {
-    Settings_Query(client);
+    Settings_Query(client, SettingsType_DownloadFilter);
 }
 
 public void OnClientCookiesCached(int client) {

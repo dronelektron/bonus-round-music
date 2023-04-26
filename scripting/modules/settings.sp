@@ -1,9 +1,13 @@
 static bool g_isPlayWinMusic[MAXPLAYERS + 1] = {true, ...};
 static bool g_areSoundsDownloaded[MAXPLAYERS + 1] = {true, ...};
 
-void Settings_Query(int client) {
-    QueryClientConVar(client, "dod_playwinmusic", Settings_Result, SettingsType_PlayWinMusic);
-    QueryClientConVar(client, "cl_downloadfilter", Settings_Result, SettingsType_DownloadFilter);
+static char g_settings[][] = {
+    "dod_playwinmusic",
+    "cl_downloadfilter"
+};
+
+void Settings_Query(int client, SettingsType type) {
+    QueryClientConVar(client, g_settings[type], Settings_Result, type);
 }
 
 void Settings_Result(QueryCookie cookie, int client, ConVarQueryResult result, const char[] cvarName, const char[] cvarValue, SettingsType type) {
