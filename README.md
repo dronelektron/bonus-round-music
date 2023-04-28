@@ -15,14 +15,21 @@ Allows you to play custom music at the end of the round
 
 * sm_bonusroundmusic_show_song_name - Show song name [default: "1"]
 
+### File Requirements
+
+* File name in lowercase
+* File name does not contain any characters other than `-`
+* File format: mp3
+* Sampling frequency: 44.1 kHz
+* Bitrate: 128 kbps
+* Duration: `dod_bonusroundtime` + 5 seconds
+* Audio track does not contain any effects
+* Volume of the file should be at the level of standard music
+
 ### Notes
 
-* File name must contain lowercase letters and "-" sign (extra characters can lead to problems)
 * Nested directories are not supported
-* Recommended bitrate: 128 kbps
-* Recommended music duration: `dod_bonusroundtime` + 5 seconds
-* Supported formats: mp3
 * The new version of the file must have a different name
+* Plugin config: `addons/sourcemod/configs/bonus-round-music.txt`
 * Use `dod_playwinmusic` to enable/disable music at the end of the round
 * Use `!settings` to control the type of music (default or custom)
-* To change the path to music edit this file `addons/sourcemod/configs/bonus-round-music.txt`
