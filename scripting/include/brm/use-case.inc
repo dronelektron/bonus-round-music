@@ -5,3 +5,4 @@
 
 #define TEAM_ALLIES 2
 #define EXTENSION_MP3 ".mp3"
+#define INVALID_CLIENT 0

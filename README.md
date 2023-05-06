@@ -15,6 +15,11 @@ Allows you to play custom music at the end of the round
 
 * sm_bonusroundmusic_show_song_name - Show song name [default: "1"]
 
+### Console Commands
+
+* sm_brm_play_all - Play music for all players
+* sm_brm_play - Play music for a specific player
+
 ### File Requirements
 
 * File name in lowercase

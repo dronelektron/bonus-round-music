@@ -5,6 +5,21 @@
         "ru"    "Сейчас играет {wheat}{1}"
     }
 
+    "Player is no longer available"
+    {
+        "ru"    "Выбранный вами игрок больше недоступен"
+    }
+
+    "Played music for all"
+    {
+        "ru"    "Воспроизвел музыку '{1}' для всех игроков"
+    }
+
+    "Played music for client"
+    {
+        "ru"    "Воспроизвел музыку '{1}' для игрока {2}"
+    }
+
     "Bonus round music"
     {
         "ru"    "Музыка в конце раунда"
@@ -18,5 +33,15 @@
     "Music type custom"
     {
         "ru"    "Кастомная"
+    }
+
+    "Select player"
+    {
+        "ru"    "Выберите игрока"
+    }
+
+    "Select music"
+    {
+        "ru"    "Выберите музыку"
     }
 }
