@@ -10,7 +10,7 @@ void Sound_PlayCustomMusic(int client, int soundIndex) {
 
     SoundList_Get(soundIndex, fileName);
     Sound_GetRelativePath(relativePath, fileName);
-    EmitSoundToClient(client, relativePath);
+    EmitSoundToClient(client, relativePath, _, SNDCHAN_REPLACE);
 }
 
 void Sound_AddToDownloads(const char[] fileName) {

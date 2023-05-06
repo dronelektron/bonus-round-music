@@ -51,6 +51,30 @@ void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex, bool sh
     }
 }
 
+void UseCase_PlayMusicManuallyForAll(int client, int soundIndex) {
+    char fileName[PLATFORM_MAX_PATH];
+
+    SoundList_Get(soundIndex, fileName);
+
+    for (int target = 1; target <= MaxClients; target++) {
+        bool areSoundsDownloaded = Settings_AreSoundsDownloaded(target);
+
+        if (IsClientInGame(target) && areSoundsDownloaded) {
+            Sound_PlayCustomMusic(target, soundIndex);
+        }
+    }
+
+    Message_PlayedMusicForAll(client, fileName);
+}
+
+void UseCase_PlayMusicManuallyForClient(int client, int target, int soundIndex) {
+    char fileName[PLATFORM_MAX_PATH];
+
+    SoundList_Get(soundIndex, fileName);
+    Sound_PlayCustomMusic(target, soundIndex);
+    Message_PlayedMusicForClient(client, target, fileName);
+}
+
 void UseCase_FindMusic() {
     char musicPath[PLATFORM_MAX_PATH];
 
@@ -59,7 +83,7 @@ void UseCase_FindMusic() {
     DirectoryListing directory = OpenDirectory(musicPath);
     char fileName[PLATFORM_MAX_PATH];
     FileType fileType;
-    ArrayList previousList = SoundList_ToSortedList();
+    ArrayList previousList = SoundList_Clone();
 
     SoundList_Clear();
     LogMessage("Path for music '%s'", musicPath);
@@ -78,8 +102,10 @@ void UseCase_FindMusic() {
         LogMessage("Added '%s'", fileName);
     }
 
+    SoundList_Sort();
+
     int soundsAmount = SoundList_Size();
-    ArrayList currentList = SoundList_ToSortedList();
+    ArrayList currentList = SoundList_Clone();
 
     if (soundsAmount == 0) {
         LogMessage("Files not found");

@@ -22,10 +22,10 @@ void SoundList_Get(int index, char[] fileName) {
     g_sounds.GetString(index, fileName, PLATFORM_MAX_PATH);
 }
 
-ArrayList SoundList_ToSortedList() {
-    ArrayList list = g_sounds.Clone();
+void SoundList_Sort() {
+    g_sounds.Sort(Sort_Ascending, Sort_String);
+}
 
-    list.Sort(Sort_Ascending, Sort_String);
-
-    return list;
+ArrayList SoundList_Clone() {
+    return g_sounds.Clone();
 }

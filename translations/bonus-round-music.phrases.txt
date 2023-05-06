@@ -11,6 +11,23 @@
         "en"    "Now playing {wheat}{1}"
     }
 
+    "Player is no longer available"
+    {
+        "en"    "The player you selected is no longer available"
+    }
+
+    "Played music for all"
+    {
+        "#format"   "{1:s}"
+        "en"    "Played music '{1}' for all players"
+    }
+
+    "Played music for client"
+    {
+        "#format"   "{1:s},{2:N}"
+        "en"    "Played music '{1}' for player {2}"
+    }
+
     "Bonus round music"
     {
         "en"    "Bonus round music"
@@ -24,5 +41,15 @@
     "Music type custom"
     {
         "en"    "Custom"
+    }
+
+    "Select player"
+    {
+        "en"    "Select player"
+    }
+
+    "Select music"
+    {
+        "en"    "Select music"
     }
 }

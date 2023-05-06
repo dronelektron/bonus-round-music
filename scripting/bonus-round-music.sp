@@ -6,11 +6,13 @@
 
 #include "brm/cookie"
 #include "brm/menu"
+#include "brm/message"
 #include "brm/settings"
 #include "brm/sound"
 #include "brm/storage"
 #include "brm/use-case"
 
+#include "modules/console-command.sp"
 #include "modules/console-variable.sp"
 #include "modules/cookie.sp"
 #include "modules/event.sp"
@@ -34,6 +36,7 @@ public Plugin myinfo = {
 };
 
 public void OnPluginStart() {
+    Command_Create();
     Variable_Create();
     Cookie_Create();
     Event_Create();
