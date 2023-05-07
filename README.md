@@ -19,6 +19,8 @@ Allows you to play custom music at the end of the round
 
 * sm_brm_play_all - Play music for all players
 * sm_brm_play - Play music for a specific player
+* sm_brm_stop_all - Stop music for all players
+* sm_brm_stop - Stop music for a specific player
 
 ### File Requirements
 

@@ -31,7 +31,7 @@ public Plugin myinfo = {
     name = "Bonus round music",
     author = "Dron-elektron",
     description = "Allows you to play custom music at the end of the round",
-    version = "1.1.0",
+    version = "1.2.0",
     url = "https://github.com/dronelektron/bonus-round-music"
 };
 
@@ -49,6 +49,7 @@ public void OnPluginStart() {
 }
 
 public void OnMapStart() {
+    Sound_Precache(SOUND_EMPTY);
     UseCase_FindMusic();
 }
 

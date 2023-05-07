@@ -19,13 +19,24 @@
     "Played music for all"
     {
         "#format"   "{1:s}"
-        "en"    "Played music '{1}' for all players"
+        "en"    "Played '{1}' for all players"
     }
 
     "Played music for client"
     {
         "#format"   "{1:s},{2:N}"
-        "en"    "Played music '{1}' for player {2}"
+        "en"    "Played '{1}' for player {2}"
+    }
+
+    "Stopped music for all"
+    {
+        "en"    "Stopped music for all players"
+    }
+
+    "Stopped music for client"
+    {
+        "#format"   "{1:N}"
+        "en"    "Stopped music for player {1}"
     }
 
     "Bonus round music"

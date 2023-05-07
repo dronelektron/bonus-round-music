@@ -8,3 +8,5 @@
 
 #define SOUND_GAME_WIN_US "Game.USWin"
 #define SOUND_GAME_WIN_GERMAN "Game.GermanWin"
+
+#define SOUND_EMPTY "hl1/fvox/_comma.wav"

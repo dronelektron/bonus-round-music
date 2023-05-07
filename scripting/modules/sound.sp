@@ -1,3 +1,7 @@
+void Sound_PlayEmpty(int client) {
+    EmitSoundToClient(client, SOUND_EMPTY, _, SNDCHAN_REPLACE);
+}
+
 void Sound_PlayDefaultMusic(int client, int winTeam) {
     bool isUsWin = winTeam == TEAM_ALLIES;
 
