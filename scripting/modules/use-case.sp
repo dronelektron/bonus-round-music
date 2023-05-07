@@ -76,6 +76,23 @@ void UseCase_PlayMusicManuallyForClient(int client, int target, int soundIndex) 
     Message_PlayedMusicForClient(client, target, fileName);
 }
 
+void UseCase_StopMusicForAll(int client) {
+    for (int target = 1; target <= MaxClients; target++) {
+        bool areSoundsDownloaded = Settings_AreSoundsDownloaded(target);
+
+        if (IsClientInGame(target) && areSoundsDownloaded) {
+            Sound_PlayEmpty(target);
+        }
+    }
+
+    Message_StoppedMusicForAll(client);
+}
+
+void UseCase_StopMusicForClient(int client, int target) {
+    Sound_PlayEmpty(target);
+    Message_StoppedMusicForClient(client, target);
+}
+
 void UseCase_FindMusic() {
     char musicPath[PLATFORM_MAX_PATH];
 

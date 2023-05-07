@@ -28,6 +28,17 @@
         "en"    "Played '{1}' for player {2}"
     }
 
+    "Stopped music for all"
+    {
+        "en"    "Stopped music for all players"
+    }
+
+    "Stopped music for client"
+    {
+        "#format"   "{1:N}"
+        "en"    "Stopped music for player {1}"
+    }
+
     "Bonus round music"
     {
         "en"    "Bonus round music"

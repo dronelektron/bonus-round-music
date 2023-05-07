@@ -49,6 +49,7 @@ public void OnPluginStart() {
 }
 
 public void OnMapStart() {
+    Sound_Precache(SOUND_EMPTY);
     UseCase_FindMusic();
 }
 

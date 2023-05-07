@@ -58,8 +58,8 @@ int Menu_GetItemStyleForMusicType(int client, const char[] musicType) {
     return strcmp(cookieValue, musicType) == 0 ? ITEMDRAW_DISABLED : ITEMDRAW_DEFAULT;
 }
 
-void Menu_Players(int client) {
-    Menu menu = new Menu(MenuHandler_Players);
+void Menu_SelectClientForPlay(int client) {
+    Menu menu = new Menu(MenuHandler_SelectClientForPlay);
 
     menu.SetTitle("%T", SELECT_PLAYER, client);
 
@@ -68,7 +68,7 @@ void Menu_Players(int client) {
     menu.Display(client, MENU_TIME_FOREVER);
 }
 
-public int MenuHandler_Players(Menu menu, MenuAction action, int param1, int param2) {
+public int MenuHandler_SelectClientForPlay(Menu menu, MenuAction action, int param1, int param2) {
     if (action == MenuAction_Select) {
         char info[INFO_SIZE];
 
@@ -77,10 +77,42 @@ public int MenuHandler_Players(Menu menu, MenuAction action, int param1, int par
         int targetId = StringToInt(info);
         int target = GetClientOfUserId(targetId);
 
-        if (Menu_IsValidTarget(param1, target)) {
+        if (Menu_IsValidTargetForPlay(param1, target)) {
             g_targetId[param1] = targetId;
 
             Menu_PlayMusicForClient(param1);
+        }
+    } else if (action == MenuAction_End) {
+        delete menu;
+    }
+
+    return 0;
+}
+
+void Menu_SelectClientForStop(int client) {
+    Menu menu = new Menu(MenuHandler_SelectClientForStop);
+
+    menu.SetTitle("%T", SELECT_PLAYER, client);
+
+    Menu_AddPlayers(menu);
+
+    menu.Display(client, MENU_TIME_FOREVER);
+}
+
+public int MenuHandler_SelectClientForStop(Menu menu, MenuAction action, int param1, int param2) {
+    if (action == MenuAction_Select) {
+        char info[INFO_SIZE];
+
+        menu.GetItem(param2, info, sizeof(info));
+
+        int targetId = StringToInt(info);
+        int target = GetClientOfUserId(targetId);
+
+        if (target == INVALID_CLIENT) {
+            Menu_SelectClientForStop(param1);
+            Message_PlayerIsNoLongerAvailable(param1);
+        } else {
+            UseCase_StopMusicForClient(param1, target);
         }
     } else if (action == MenuAction_End) {
         delete menu;
@@ -99,17 +131,6 @@ void Menu_PlayMusicForAll(int client, int soundIndex = 0) {
     menu.DisplayAt(client, soundIndex, MENU_TIME_FOREVER);
 }
 
-void Menu_PlayMusicForClient(int client, int soundIndex = 0) {
-    Menu menu = new Menu(MenuHandler_PlayMusicForClient);
-
-    menu.SetTitle("%T", SELECT_MUSIC, client);
-
-    Menu_AddMusic(menu);
-
-    menu.ExitBackButton = true;
-    menu.DisplayAt(client, soundIndex, MENU_TIME_FOREVER);
-}
-
 public int MenuHandler_PlayMusicForAll(Menu menu, MenuAction action, int param1, int param2) {
     if (action == MenuAction_Select) {
         UseCase_PlayMusicManuallyForAll(param1, param2);
@@ -124,12 +145,23 @@ public int MenuHandler_PlayMusicForAll(Menu menu, MenuAction action, int param1,
     return 0;
 }
 
+void Menu_PlayMusicForClient(int client, int soundIndex = 0) {
+    Menu menu = new Menu(MenuHandler_PlayMusicForClient);
+
+    menu.SetTitle("%T", SELECT_MUSIC, client);
+
+    Menu_AddMusic(menu);
+
+    menu.ExitBackButton = true;
+    menu.DisplayAt(client, soundIndex, MENU_TIME_FOREVER);
+}
+
 public int MenuHandler_PlayMusicForClient(Menu menu, MenuAction action, int param1, int param2) {
     if (action == MenuAction_Select) {
         int targetId = g_targetId[param1];
         int target = GetClientOfUserId(targetId);
 
-        if (Menu_IsValidTarget(param1, target)) {
+        if (Menu_IsValidTargetForPlay(param1, target)) {
             UseCase_PlayMusicManuallyForClient(param1, target, param2);
 
             int soundIndex = Menu_GetFirstItemBySoundIndex(param2);
@@ -137,7 +169,7 @@ public int MenuHandler_PlayMusicForClient(Menu menu, MenuAction action, int para
             Menu_PlayMusicForClient(param1, soundIndex);
         }
     } else if (action == MenuAction_Cancel && param2 == MenuCancel_ExitBack) {
-        Menu_Players(param1);
+        Menu_SelectClientForPlay(param1);
     } else if (action == MenuAction_End) {
         delete menu;
     }
@@ -178,11 +210,11 @@ int Menu_GetFirstItemBySoundIndex(int soundIndex) {
     return soundIndex / SOUNDS_PER_PAGE * SOUNDS_PER_PAGE;
 }
 
-bool Menu_IsValidTarget(int client, int target) {
+bool Menu_IsValidTargetForPlay(int client, int target) {
     bool valid = target != INVALID_CLIENT;
 
     if (!valid) {
-        Menu_Players(client);
+        Menu_SelectClientForPlay(client);
         Message_PlayerIsNoLongerAvailable(client);
     }
 
