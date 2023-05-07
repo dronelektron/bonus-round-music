@@ -8,10 +8,10 @@ void Message_PlayerIsNoLongerAvailable(int client) {
 
 void Message_PlayedMusicForAll(int client, const char[] fileName) {
     ShowActivity2(client, PREFIX, "%t", "Played music for all", fileName);
-    LogMessage("\"%L\" played music '%s' for all players", client, fileName);
+    LogMessage("\"%L\" played '%s' for all players", client, fileName);
 }
 
 void Message_PlayedMusicForClient(int client, int target, const char[] fileName) {
     ShowActivity2(client, PREFIX, "%t", "Played music for client", fileName, target);
-    LogMessage("\"%L\" played music '%s' for \"%L\"", client, fileName, target);
+    LogMessage("\"%L\" played '%s' for \"%L\"", client, fileName, target);
 }
