@@ -5,7 +5,7 @@ bool UseCase_IsSupressGameSound(const char[] gameSound) {
     return isUsWinSound || isGermanWinSound;
 }
 
-void UseCase_RefreshSettings() {
+void UseCase_QueryPlayWinMusic() {
     for (int client = 1; client <= MaxClients; client++) {
         if (IsClientInGame(client)) {
             Settings_Query(client, SettingsType_PlayWinMusic);

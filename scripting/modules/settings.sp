@@ -16,13 +16,9 @@ void Settings_Result(QueryCookie cookie, int client, ConVarQueryResult result, c
     }
 
     if (type == SettingsType_PlayWinMusic) {
-        bool isPlayWinMusic = strcmp(cvarValue, "0") != 0;
-
-        g_isPlayWinMusic[client] = isPlayWinMusic;
+        g_isPlayWinMusic[client] = strcmp(cvarValue, "0") != 0;
     } else {
-        bool IsSoundDownloaded = strcmp(cvarValue, "all") == 0;
-
-        g_areSoundsDownloaded[client] = IsSoundDownloaded;
+        g_areSoundsDownloaded[client] = strcmp(cvarValue, "all") == 0;
     }
 }
 
