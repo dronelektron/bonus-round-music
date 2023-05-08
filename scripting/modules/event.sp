@@ -13,7 +13,7 @@ public Action Event_BroadcastAudio(Event event, const char[] name, bool dontBroa
 }
 
 public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast) {
-    UseCase_RefreshSettings();
+    UseCase_QueryPlayWinMusic();
 }
 
 public void Event_RoundWin(Event event, const char[] name, bool dontBroadcast) {
