@@ -81,7 +81,7 @@ void UseCase_StopMusicForAll(int client) {
         bool areSoundsDownloaded = Settings_AreSoundsDownloaded(target);
 
         if (IsClientInGame(target) && areSoundsDownloaded) {
-            Sound_PlayEmpty(target);
+            Sound_Stop(target);
         }
     }
 
@@ -89,7 +89,7 @@ void UseCase_StopMusicForAll(int client) {
 }
 
 void UseCase_StopMusicForClient(int client, int target) {
-    Sound_PlayEmpty(target);
+    Sound_Stop(target);
     Message_StoppedMusicForClient(client, target);
 }
 

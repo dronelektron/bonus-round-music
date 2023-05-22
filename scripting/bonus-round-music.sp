@@ -49,12 +49,12 @@ public void OnPluginStart() {
 }
 
 public void OnMapStart() {
-    Sound_Precache(SOUND_EMPTY);
     UseCase_FindMusic();
 }
 
 public void OnClientConnected(int client) {
     Cookie_Reset(client);
+    Sound_ResetLastIndex(client);
 }
 
 public void OnClientPostAdminCheck(int client) {
