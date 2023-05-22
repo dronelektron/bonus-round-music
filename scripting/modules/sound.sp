@@ -1,11 +1,30 @@
-void Sound_PlayEmpty(int client) {
-    EmitSoundToClient(client, SOUND_EMPTY, _, SNDCHAN_REPLACE);
+static int g_lastSoundIndex[MAXPLAYERS + 1];
+
+void Sound_ResetLastIndex(int client) {
+    g_lastSoundIndex[client] = SOUND_INDEX_NOT_FOUND;
+}
+
+void Sound_Stop(int client) {
+    int soundIndex = g_lastSoundIndex[client];
+
+    if (soundIndex == SOUND_INDEX_NOT_FOUND) {
+        return;
+    }
+
+    char fileName[PLATFORM_MAX_PATH];
+    char relativePath[PLATFORM_MAX_PATH];
+
+    SoundList_Get(soundIndex, fileName);
+    Sound_GetRelativePath(relativePath, fileName);
+    StopSound(client, SNDCHAN_REPLACE, relativePath);
+    Sound_ResetLastIndex(client);
 }
 
 void Sound_PlayDefaultMusic(int client, int winTeam) {
     bool isUsWin = winTeam == TEAM_ALLIES;
 
     EmitGameSoundToClient(client, isUsWin ? SOUND_GAME_WIN_US : SOUND_GAME_WIN_GERMAN);
+    Sound_ResetLastIndex(client);
 }
 
 void Sound_PlayCustomMusic(int client, int soundIndex) {
@@ -15,6 +34,8 @@ void Sound_PlayCustomMusic(int client, int soundIndex) {
     SoundList_Get(soundIndex, fileName);
     Sound_GetRelativePath(relativePath, fileName);
     EmitSoundToClient(client, relativePath, _, SNDCHAN_REPLACE);
+
+    g_lastSoundIndex[client] = soundIndex;
 }
 
 void Sound_AddToDownloads(const char[] fileName) {
