@@ -3,8 +3,6 @@
 #endif
 #define _brm_menu_included
 
-#define SOUNDS_PER_PAGE 7
-
 #define INFO_SIZE 32
 #define ITEM_SIZE 256
 

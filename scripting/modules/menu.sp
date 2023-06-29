@@ -121,23 +121,20 @@ public int MenuHandler_SelectClientForStop(Menu menu, MenuAction action, int par
     return 0;
 }
 
-void Menu_PlayMusicForAll(int client, int soundIndex = 0) {
+void Menu_PlayMusicForAll(int client, int fromItem = 0) {
     Menu menu = new Menu(MenuHandler_PlayMusicForAll);
 
     menu.SetTitle("%T", SELECT_MUSIC, client);
 
     Menu_AddMusic(menu);
 
-    menu.DisplayAt(client, soundIndex, MENU_TIME_FOREVER);
+    menu.DisplayAt(client, fromItem, MENU_TIME_FOREVER);
 }
 
 public int MenuHandler_PlayMusicForAll(Menu menu, MenuAction action, int param1, int param2) {
     if (action == MenuAction_Select) {
         UseCase_PlayMusicManuallyForAll(param1, param2);
-
-        int soundIndex = Menu_GetFirstItemBySoundIndex(param2);
-
-        Menu_PlayMusicForAll(param1, soundIndex);
+        Menu_PlayMusicForAll(param1, menu.Selection);
     } else if (action == MenuAction_End) {
         delete menu;
     }
@@ -145,7 +142,7 @@ public int MenuHandler_PlayMusicForAll(Menu menu, MenuAction action, int param1,
     return 0;
 }
 
-void Menu_PlayMusicForClient(int client, int soundIndex = 0) {
+void Menu_PlayMusicForClient(int client, int fromItem = 0) {
     Menu menu = new Menu(MenuHandler_PlayMusicForClient);
 
     menu.SetTitle("%T", SELECT_MUSIC, client);
@@ -153,7 +150,7 @@ void Menu_PlayMusicForClient(int client, int soundIndex = 0) {
     Menu_AddMusic(menu);
 
     menu.ExitBackButton = true;
-    menu.DisplayAt(client, soundIndex, MENU_TIME_FOREVER);
+    menu.DisplayAt(client, fromItem, MENU_TIME_FOREVER);
 }
 
 public int MenuHandler_PlayMusicForClient(Menu menu, MenuAction action, int param1, int param2) {
@@ -163,10 +160,7 @@ public int MenuHandler_PlayMusicForClient(Menu menu, MenuAction action, int para
 
         if (Menu_IsValidTargetForPlay(param1, target)) {
             UseCase_PlayMusicManuallyForClient(param1, target, param2);
-
-            int soundIndex = Menu_GetFirstItemBySoundIndex(param2);
-
-            Menu_PlayMusicForClient(param1, soundIndex);
+            Menu_PlayMusicForClient(param1, menu.Selection);
         }
     } else if (action == MenuAction_Cancel && param2 == MenuCancel_ExitBack) {
         Menu_SelectClientForPlay(param1);
@@ -204,10 +198,6 @@ void Menu_AddMusic(Menu menu) {
 
         menu.AddItem("", fileName);
     }
-}
-
-int Menu_GetFirstItemBySoundIndex(int soundIndex) {
-    return soundIndex / SOUNDS_PER_PAGE * SOUNDS_PER_PAGE;
 }
 
 bool Menu_IsValidTargetForPlay(int client, int target) {
