@@ -51,7 +51,7 @@ void Menu_AddMusicTypeItem(Menu menu, const char[] musicType, const char[] phras
 }
 
 int Menu_GetItemStyleForMusicType(int client, const char[] musicType) {
-    char cookieValue[COOKIE_VALUE_SIZE];
+    char cookieValue[COOKIE_MUSIC_TYPE_SIZE];
 
     Cookie_GetMusicType(client, cookieValue);
 

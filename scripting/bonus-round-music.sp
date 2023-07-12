@@ -53,7 +53,6 @@ public void OnMapStart() {
 }
 
 public void OnClientConnected(int client) {
-    Cookie_Reset(client);
     Sound_ResetLastIndex(client);
 }
 
