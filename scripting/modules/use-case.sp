@@ -29,7 +29,7 @@ void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex, bool sh
         return;
     }
 
-    char musicType[COOKIE_VALUE_SIZE];
+    char musicType[COOKIE_MUSIC_TYPE_SIZE];
 
     Cookie_GetMusicType(client, musicType);
 

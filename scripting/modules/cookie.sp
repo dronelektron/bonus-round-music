@@ -1,21 +1,19 @@
 static Handle g_musicTypeCookie;
-static char g_musicType[MAXPLAYERS + 1][COOKIE_VALUE_SIZE];
+static char g_musicType[MAXPLAYERS + 1][COOKIE_MUSIC_TYPE_SIZE];
 
 void Cookie_Create() {
     g_musicTypeCookie = RegClientCookie("bonusroundmusic_type", "Bonus round music type", CookieAccess_Private);
 }
 
-void Cookie_Reset(int client) {
-    g_musicType[client] = COOKIE_MUSIC_TYPE_CUSTOM;
-}
-
 void Cookie_Load(int client) {
-    char cookieValue[COOKIE_VALUE_SIZE];
+    char musicType[COOKIE_MUSIC_TYPE_SIZE];
 
-    GetClientCookie(client, g_musicTypeCookie, cookieValue, sizeof(cookieValue));
+    GetClientCookie(client, g_musicTypeCookie, musicType, sizeof(musicType));
 
-    if (cookieValue[0] != NULL_CHARACTER) {
-        Cookie_CopyValue(g_musicType[client], cookieValue);
+    if (musicType[0] == NULL_CHARACTER) {
+        Cookie_SetMusicType(client, COOKIE_MUSIC_TYPE_CUSTOM);
+    } else {
+        Cookie_CopyValue(g_musicType[client], musicType);
     }
 }
 
@@ -24,10 +22,10 @@ void Cookie_GetMusicType(int client, char[] musicType) {
 }
 
 void Cookie_SetMusicType(int client, const char[] musicType) {
-    Cookie_CopyValue(g_musicType[client], musicType);
     SetClientCookie(client, g_musicTypeCookie, musicType);
+    Cookie_CopyValue(g_musicType[client], musicType);
 }
 
 static void Cookie_CopyValue(char[] destination, const char[] source) {
-    strcopy(destination, COOKIE_VALUE_SIZE, source);
+    strcopy(destination, COOKIE_MUSIC_TYPE_SIZE, source);
 }
