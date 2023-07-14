@@ -117,7 +117,6 @@ void UseCase_FindMusic() {
         Sound_AddToDownloads(fileName);
         Sound_Precache(fileName);
         SoundList_Add(fileName);
-        LogMessage("Added '%s'", fileName);
     }
 
     SoundList_Sort();
@@ -128,13 +127,10 @@ void UseCase_FindMusic() {
     if (soundsAmount == 0) {
         LogMessage("Files not found");
     } else {
-        LogMessage("Total files: %d", soundsAmount);
+        LogMessage("Loaded %d files", soundsAmount);
 
-        if (UseCase_AreSoundListsEqual(previousList, currentList)) {
-            LogMessage("Sound list is not changed");
-        } else {
+        if (!UseCase_AreSoundListsEqual(previousList, currentList)) {
             Random_Create(soundsAmount);
-            LogMessage("Sound list is changed");
         }
     }
 
