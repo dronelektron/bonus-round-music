@@ -16,13 +16,14 @@ void Sound_Stop(int client) {
 
     SoundList_Get(soundIndex, fileName);
     Sound_GetRelativePath(relativePath, fileName);
-    StopSound(client, SNDCHAN_REPLACE, relativePath);
+    StopSound(client, SOUND_CHANNEL, relativePath);
     Sound_ResetLastIndex(client);
 }
 
 void Sound_PlayDefaultMusic(int client, int winTeam) {
     bool isUsWin = winTeam == TEAM_ALLIES;
 
+    Sound_Stop(client);
     EmitGameSoundToClient(client, isUsWin ? SOUND_GAME_WIN_US : SOUND_GAME_WIN_GERMAN);
     Sound_ResetLastIndex(client);
 }
@@ -33,7 +34,8 @@ void Sound_PlayCustomMusic(int client, int soundIndex) {
 
     SoundList_Get(soundIndex, fileName);
     Sound_GetRelativePath(relativePath, fileName);
-    EmitSoundToClient(client, relativePath, _, SNDCHAN_REPLACE);
+    Sound_Stop(client);
+    EmitSoundToClient(client, relativePath, _, SOUND_CHANNEL);
 
     g_lastSoundIndex[client] = soundIndex;
 }
