@@ -145,7 +145,7 @@ bool UseCase_StringEndsWith(const char[] string, const char[] subString) {
 }
 
 bool UseCase_IsStringEmpty(const char[] string) {
-    return strlen(string) == 0;
+    return string[0] == NULL_CHARACTER;
 }
 
 void UseCase_RemoveFileExtension(char[] fileName) {
