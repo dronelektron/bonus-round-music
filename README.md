@@ -13,6 +13,7 @@ Allows you to play custom music at the end of the round
 
 ### Console Variables
 
+* sm_bonusroundmusic_music_path - Path to music without the `sound` folder [default: "brm"]
 * sm_bonusroundmusic_show_song_name - Show song name [default: "1"]
 
 ### Console Commands
@@ -38,16 +39,3 @@ Allows you to play custom music at the end of the round
 * The new version of the file must have a different name
 * Use `dod_playwinmusic` to enable/disable music at the end of the round
 * Use `!settings` to control the type of music (default or custom)
-
-### Configuration
-
-Open `addons/sourcemod/configs/bonus-round-music.txt` and set the `music path` without the `sound/` prefix:
-
-```
-"Root"
-{
-	"music path"		"foo/bar"
-}
-```
-
-The plugin will interpret this path as `sound/foo/bar`

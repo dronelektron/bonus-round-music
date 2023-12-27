@@ -57,7 +57,7 @@ void Sound_Precache(const char[] fileName) {
 void Sound_GetMusicPath(char[] path) {
     char relativePath[PLATFORM_MAX_PATH];
 
-    Storage_GetMusicPath(relativePath);
+    Variable_MusicPath(relativePath);
 
     if (UseCase_IsStringEmpty(relativePath)) {
         Format(path, PLATFORM_MAX_PATH, "sound");
@@ -76,7 +76,7 @@ void Sound_GetFullPath(char[] path, const char[] fileName) {
 void Sound_GetRelativePath(char[] path, const char[] fileName) {
     char relativePath[PLATFORM_MAX_PATH];
 
-    Storage_GetMusicPath(relativePath);
+    Variable_MusicPath(relativePath);
 
     if (UseCase_IsStringEmpty(relativePath)) {
         Format(path, PLATFORM_MAX_PATH, "%s", fileName);
