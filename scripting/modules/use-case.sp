@@ -119,6 +119,7 @@ void UseCase_FindMusic() {
         SoundList_Add(fileName);
     }
 
+    CloseHandle(directory);
     SoundList_Sort();
 
     int soundsAmount = SoundList_Size();
