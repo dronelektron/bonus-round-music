@@ -21,6 +21,7 @@
 #include "modules/settings.sp"
 #include "modules/sound-list.sp"
 #include "modules/sound.sp"
+#include "modules/string.sp"
 #include "modules/use-case.sp"
 
 #define AUTO_CREATE_YES true

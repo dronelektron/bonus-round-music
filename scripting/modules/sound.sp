@@ -59,7 +59,7 @@ void Sound_GetMusicPath(char[] path) {
 
     Variable_MusicPath(relativePath);
 
-    if (UseCase_IsStringEmpty(relativePath)) {
+    if (String_IsEmpty(relativePath)) {
         Format(path, PLATFORM_MAX_PATH, "sound");
     } else {
         Format(path, PLATFORM_MAX_PATH, "sound/%s", relativePath);
@@ -78,7 +78,7 @@ void Sound_GetRelativePath(char[] path, const char[] fileName) {
 
     Variable_MusicPath(relativePath);
 
-    if (UseCase_IsStringEmpty(relativePath)) {
+    if (String_IsEmpty(relativePath)) {
         Format(path, PLATFORM_MAX_PATH, "%s", fileName);
     } else {
         Format(path, PLATFORM_MAX_PATH, "%s/%s", relativePath, fileName);

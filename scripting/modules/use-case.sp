@@ -43,7 +43,7 @@ void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex, bool sh
             char fileName[PLATFORM_MAX_PATH];
 
             SoundList_Get(soundIndex, fileName);
-            UseCase_RemoveFileExtension(fileName);
+            String_RemoveFileExtension(fileName);
             Message_NowPlaying(client, fileName);
         }
     } else {
@@ -63,7 +63,7 @@ void UseCase_PlayMusicManuallyForAll(int client, int soundIndex) {
     char fileName[PLATFORM_MAX_PATH];
 
     SoundList_Get(soundIndex, fileName);
-    UseCase_RemoveFileExtension(fileName);
+    String_RemoveFileExtension(fileName);
     Message_PlayedMusicForAll(client, fileName);
 }
 
@@ -71,7 +71,7 @@ void UseCase_PlayMusicManuallyForClient(int client, int target, int soundIndex) 
     char fileName[PLATFORM_MAX_PATH];
 
     SoundList_Get(soundIndex, fileName);
-    UseCase_RemoveFileExtension(fileName);
+    String_RemoveFileExtension(fileName);
     Sound_PlayCustomMusic(target, soundIndex);
     Message_PlayedMusicForClient(client, target, fileName);
 }
@@ -108,7 +108,7 @@ void UseCase_FindMusic() {
 
     while (directory.GetNext(fileName, sizeof(fileName), fileType)) {
         bool isDirectory = fileType == FileType_Directory;
-        bool isNotMp3 = !UseCase_StringEndsWith(fileName, EXTENSION_MP3);
+        bool isNotMp3 = !String_EndsWith(fileName, EXTENSION_MP3);
 
         if (isDirectory || isNotMp3) {
             continue;
@@ -137,22 +137,6 @@ void UseCase_FindMusic() {
 
     delete previousList;
     delete currentList;
-}
-
-bool UseCase_StringEndsWith(const char[] string, const char[] subString) {
-    int index = StrContains(string, subString);
-
-    return index == strlen(string) - strlen(subString);
-}
-
-bool UseCase_IsStringEmpty(const char[] string) {
-    return string[0] == NULL_CHARACTER;
-}
-
-void UseCase_RemoveFileExtension(char[] fileName) {
-    int lastIndex = strlen(fileName) - strlen(EXTENSION_MP3);
-
-    fileName[lastIndex] = NULL_CHARACTER;
 }
 
 bool UseCase_AreSoundListsEqual(ArrayList previousList, ArrayList currentList) {

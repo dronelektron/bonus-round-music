@@ -194,7 +194,7 @@ void Menu_AddMusic(Menu menu) {
 
     for (int i = 0; i < SoundList_Size(); i++) {
         SoundList_Get(i, fileName);
-        UseCase_RemoveFileExtension(fileName);
+        String_RemoveFileExtension(fileName);
 
         menu.AddItem("", fileName);
     }
