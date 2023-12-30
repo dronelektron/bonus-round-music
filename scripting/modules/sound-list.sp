@@ -25,7 +25,3 @@ void SoundList_Get(int index, char[] fileName) {
 void SoundList_Sort() {
     g_sounds.Sort(Sort_Ascending, Sort_String);
 }
-
-ArrayList SoundList_Clone() {
-    return g_sounds.Clone();
-}

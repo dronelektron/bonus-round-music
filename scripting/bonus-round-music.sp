@@ -17,7 +17,6 @@
 #include "modules/event.sp"
 #include "modules/menu.sp"
 #include "modules/message.sp"
-#include "modules/random.sp"
 #include "modules/settings.sp"
 #include "modules/sound-list.sp"
 #include "modules/sound.sp"

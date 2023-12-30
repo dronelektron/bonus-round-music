@@ -14,7 +14,13 @@ void UseCase_QueryPlayWinMusic() {
 }
 
 void UseCase_PlayMusic(int winTeam) {
-    int soundIndex = Random_GetRandomIndex();
+    int soundsAmount = SoundList_Size();
+
+    if (soundsAmount == 0) {
+        return;
+    }
+
+    int soundIndex = GetRandomInt(0, soundsAmount - 1);
     bool showSongName = Variable_ShowSongName();
 
     for (int client = 1; client <= MaxClients; client++) {
@@ -102,7 +108,6 @@ void UseCase_FindMusic() {
     DirectoryListing directory = OpenDirectory(musicPath);
     char fileName[PLATFORM_MAX_PATH];
     FileType fileType;
-    ArrayList previousList = SoundList_Clone();
 
     SoundList_Clear();
     LogMessage("Path for music '%s'", musicPath);
@@ -124,38 +129,10 @@ void UseCase_FindMusic() {
     SoundList_Sort();
 
     int soundsAmount = SoundList_Size();
-    ArrayList currentList = SoundList_Clone();
 
     if (soundsAmount == 0) {
         LogMessage("Files not found");
     } else {
         LogMessage("Loaded %d files", soundsAmount);
-
-        if (!UseCase_AreSoundListsEqual(previousList, currentList)) {
-            Random_Create(soundsAmount);
-        }
     }
-
-    delete previousList;
-    delete currentList;
-}
-
-bool UseCase_AreSoundListsEqual(ArrayList previousList, ArrayList currentList) {
-    if (previousList.Length != currentList.Length) {
-        return false;
-    }
-
-    char previousFileName[PLATFORM_MAX_PATH];
-    char currentFileName[PLATFORM_MAX_PATH];
-
-    for (int i = 0; i < previousList.Length; i++) {
-        previousList.GetString(i, previousFileName, PLATFORM_MAX_PATH);
-        currentList.GetString(i, currentFileName, PLATFORM_MAX_PATH);
-
-        if (strcmp(previousFileName, currentFileName) != 0) {
-            return false;
-        }
-    }
-
-    return true;
 }
