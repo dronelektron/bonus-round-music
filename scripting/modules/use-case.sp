@@ -21,16 +21,15 @@ void UseCase_PlayMusic(int winTeam) {
     }
 
     int soundIndex = GetRandomInt(0, soundsAmount - 1);
-    bool showSongName = Variable_ShowSongName();
 
     for (int client = 1; client <= MaxClients; client++) {
         if (IsClientInGame(client)) {
-            UseCase_PlayMusicForClient(client, winTeam, soundIndex, showSongName);
+            UseCase_PlayMusicForClient(client, winTeam, soundIndex);
         }
     }
 }
 
-void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex, bool showSongName) {
+void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex) {
     if (!Settings_IsPlayWinMusic(client)) {
         return;
     }
@@ -48,7 +47,7 @@ void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex, bool sh
         SoundList_Get(soundIndex, fileName);
         Sound_PlayCustomMusic(client, fileName);
 
-        if (showSongName) {
+        if (Variable_ShowSongName()) {
             String_RemoveFileExtension(fileName);
             Message_NowPlaying(client, fileName);
         }
