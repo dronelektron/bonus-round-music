@@ -37,12 +37,12 @@ void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex, bool sh
     bool areSoundsDownloaded = Settings_AreSoundsDownloaded(client);
 
     if (playCustomMusic && areSoundsDownloaded) {
-        Sound_PlayCustomMusic(client, soundIndex);
+        char fileName[PLATFORM_MAX_PATH];
+
+        SoundList_Get(soundIndex, fileName);
+        Sound_PlayCustomMusic(client, fileName);
 
         if (showSongName) {
-            char fileName[PLATFORM_MAX_PATH];
-
-            SoundList_Get(soundIndex, fileName);
             String_RemoveFileExtension(fileName);
             Message_NowPlaying(client, fileName);
         }
@@ -52,17 +52,18 @@ void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex, bool sh
 }
 
 void UseCase_PlayMusicManuallyForAll(int client, int soundIndex) {
+    char fileName[PLATFORM_MAX_PATH];
+
+    SoundList_Get(soundIndex, fileName);
+
     for (int target = 1; target <= MaxClients; target++) {
         bool areSoundsDownloaded = Settings_AreSoundsDownloaded(target);
 
         if (IsClientInGame(target) && areSoundsDownloaded) {
-            Sound_PlayCustomMusic(target, soundIndex);
+            Sound_PlayCustomMusic(target, fileName);
         }
     }
 
-    char fileName[PLATFORM_MAX_PATH];
-
-    SoundList_Get(soundIndex, fileName);
     String_RemoveFileExtension(fileName);
     Message_PlayedMusicForAll(client, fileName);
 }
@@ -72,7 +73,7 @@ void UseCase_PlayMusicManuallyForClient(int client, int target, int soundIndex) 
 
     SoundList_Get(soundIndex, fileName);
     String_RemoveFileExtension(fileName);
-    Sound_PlayCustomMusic(target, soundIndex);
+    Sound_PlayCustomMusic(target, fileName);
     Message_PlayedMusicForClient(client, target, fileName);
 }
 

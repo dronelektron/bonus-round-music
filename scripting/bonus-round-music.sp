@@ -51,7 +51,7 @@ public void OnConfigsExecuted() {
 }
 
 public void OnClientConnected(int client) {
-    Sound_ResetLastIndex(client);
+    Sound_ResetLastFileName(client);
 }
 
 public void OnClientPostAdminCheck(int client) {
