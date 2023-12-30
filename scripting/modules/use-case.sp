@@ -152,7 +152,7 @@ bool UseCase_IsStringEmpty(const char[] string) {
 void UseCase_RemoveFileExtension(char[] fileName) {
     int lastIndex = strlen(fileName) - strlen(EXTENSION_MP3);
 
-    fileName[lastIndex] = '\0';
+    fileName[lastIndex] = NULL_CHARACTER;
 }
 
 bool UseCase_AreSoundListsEqual(ArrayList previousList, ArrayList currentList) {
