@@ -14,16 +14,24 @@ void UseCase_QueryPlayWinMusic() {
 }
 
 void UseCase_PlayMusic(int winTeam) {
-    int soundsAmount = SoundList_Size();
+    if (SoundList_Size(LIST_SOUNDS_ALL) == 0) {
+        return;
+    }
+
+    int soundsAmount = SoundList_Size(LIST_SOUNDS_LEFT);
 
     if (soundsAmount == 0) {
-        return;
+        SoundList_Clear(LIST_SOUNDS_PLAYED);
+        UseCase_MarkAllSoundsAsLeft();
+
+        soundsAmount = SoundList_Size(LIST_SOUNDS_LEFT);
     }
 
     int soundIndex = GetRandomInt(0, soundsAmount - 1);
     char fileName[PLATFORM_MAX_PATH];
 
-    SoundList_Get(soundIndex, fileName);
+    SoundList_Get(LIST_SOUNDS_LEFT, soundIndex, fileName);
+    UseCase_MarkSoundAsPlayed(fileName);
 
     for (int client = 1; client <= MaxClients; client++) {
         if (IsClientInGame(client)) {
@@ -55,11 +63,7 @@ void UseCase_PlayMusicForClient(int client, int winTeam, const char[] fileName) 
     }
 }
 
-void UseCase_PlayMusicManuallyForAll(int client, int soundIndex) {
-    char fileName[PLATFORM_MAX_PATH];
-
-    SoundList_Get(soundIndex, fileName);
-
+void UseCase_PlayMusicManuallyForAll(int client, const char[] fileName) {
     for (int target = 1; target <= MaxClients; target++) {
         bool areSoundsDownloaded = Settings_AreSoundsDownloaded(target);
 
@@ -102,7 +106,7 @@ void UseCase_FindMusic() {
     char fileName[PLATFORM_MAX_PATH];
     FileType fileType;
 
-    SoundList_Clear();
+    SoundList_Clear(LIST_SOUNDS_ALL);
     LogMessage("Path for music '%s'", musicPath);
 
     while (directory.GetNext(fileName, sizeof(fileName), fileType)) {
@@ -115,17 +119,45 @@ void UseCase_FindMusic() {
 
         Sound_AddToDownloads(fileName);
         Sound_Precache(fileName);
-        SoundList_Add(fileName);
+        SoundList_Add(LIST_SOUNDS_ALL, fileName);
     }
 
     CloseHandle(directory);
-    SoundList_Sort();
+    SoundList_Sort(LIST_SOUNDS_ALL);
+    UseCase_MarkAllSoundsAsLeft();
+    SoundList_Sort(LIST_SOUNDS_LEFT);
 
-    int soundsAmount = SoundList_Size();
+    int soundsAmount = SoundList_Size(LIST_SOUNDS_ALL);
 
     if (soundsAmount == 0) {
         LogMessage("Files not found");
     } else {
         LogMessage("Loaded %d files", soundsAmount);
     }
+}
+
+void UseCase_MarkAllSoundsAsLeft() {
+    char fileName[PLATFORM_MAX_PATH];
+
+    for (int i = 0; i < SoundList_Size(LIST_SOUNDS_ALL); i++) {
+        SoundList_Get(LIST_SOUNDS_ALL, i, fileName);
+        UseCase_MarkSoundAsLeft(fileName);
+    }
+}
+
+void UseCase_MarkSoundAsLeft(const char[] fileName) {
+    if (SoundList_Exists(LIST_SOUNDS_LEFT, fileName)) {
+        return;
+    }
+
+    if (SoundList_Exists(LIST_SOUNDS_PLAYED, fileName)) {
+        return;
+    }
+
+    SoundList_Add(LIST_SOUNDS_LEFT, fileName);
+}
+
+void UseCase_MarkSoundAsPlayed(const char[] fileName) {
+    SoundList_RemoveByName(LIST_SOUNDS_LEFT, fileName);
+    SoundList_Add(LIST_SOUNDS_PLAYED, fileName);
 }

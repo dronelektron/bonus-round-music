@@ -8,6 +8,7 @@
 #include "brm/menu"
 #include "brm/message"
 #include "brm/settings"
+#include "brm/sound-list"
 #include "brm/sound"
 #include "brm/use-case"
 

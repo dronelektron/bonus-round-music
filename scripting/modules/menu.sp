@@ -133,7 +133,10 @@ void Menu_PlayMusicForAll(int client, int fromItem = 0) {
 
 public int MenuHandler_PlayMusicForAll(Menu menu, MenuAction action, int param1, int param2) {
     if (action == MenuAction_Select) {
-        UseCase_PlayMusicManuallyForAll(param1, param2);
+        char fileName[PLATFORM_MAX_PATH];
+
+        SoundList_Get(LIST_SOUNDS_ALL, param2, fileName);
+        UseCase_PlayMusicManuallyForAll(param1, fileName);
         Menu_PlayMusicForAll(param1, menu.Selection);
     } else if (action == MenuAction_End) {
         delete menu;
@@ -161,7 +164,7 @@ public int MenuHandler_PlayMusicForClient(Menu menu, MenuAction action, int para
         if (Menu_IsValidTargetForPlay(param1, target)) {
             char fileName[PLATFORM_MAX_PATH];
 
-            SoundList_Get(param2, fileName);
+            SoundList_Get(LIST_SOUNDS_ALL, param2, fileName);
             UseCase_PlayMusicManuallyForClient(param1, target, fileName);
             Menu_PlayMusicForClient(param1, menu.Selection);
         }
@@ -196,8 +199,8 @@ void Menu_AddMusic(Menu menu) {
     char fullName[PLATFORM_MAX_PATH];
     char partialName[PLATFORM_MAX_PATH];
 
-    for (int i = 0; i < SoundList_Size(); i++) {
-        SoundList_Get(i, fullName);
+    for (int i = 0; i < SoundList_Size(LIST_SOUNDS_ALL); i++) {
+        SoundList_Get(LIST_SOUNDS_ALL, i, fullName);
         String_RemoveFileExtension(fullName, partialName);
 
         menu.AddItem("", partialName);
