@@ -159,7 +159,10 @@ public int MenuHandler_PlayMusicForClient(Menu menu, MenuAction action, int para
         int target = GetClientOfUserId(targetId);
 
         if (Menu_IsValidTargetForPlay(param1, target)) {
-            UseCase_PlayMusicManuallyForClient(param1, target, param2);
+            char fileName[PLATFORM_MAX_PATH];
+
+            SoundList_Get(param2, fileName);
+            UseCase_PlayMusicManuallyForClient(param1, target, fileName);
             Menu_PlayMusicForClient(param1, menu.Selection);
         }
     } else if (action == MenuAction_Cancel && param2 == MenuCancel_ExitBack) {
@@ -190,13 +193,14 @@ void Menu_AddPlayers(Menu menu) {
 }
 
 void Menu_AddMusic(Menu menu) {
-    char fileName[PLATFORM_MAX_PATH];
+    char fullName[PLATFORM_MAX_PATH];
+    char partialName[PLATFORM_MAX_PATH];
 
     for (int i = 0; i < SoundList_Size(); i++) {
-        SoundList_Get(i, fileName);
-        String_RemoveFileExtension(fileName);
+        SoundList_Get(i, fullName);
+        String_RemoveFileExtension(fullName, partialName);
 
-        menu.AddItem("", fileName);
+        menu.AddItem("", partialName);
     }
 }
 

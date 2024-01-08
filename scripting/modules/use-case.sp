@@ -21,15 +21,18 @@ void UseCase_PlayMusic(int winTeam) {
     }
 
     int soundIndex = GetRandomInt(0, soundsAmount - 1);
+    char fileName[PLATFORM_MAX_PATH];
+
+    SoundList_Get(soundIndex, fileName);
 
     for (int client = 1; client <= MaxClients; client++) {
         if (IsClientInGame(client)) {
-            UseCase_PlayMusicForClient(client, winTeam, soundIndex);
+            UseCase_PlayMusicForClient(client, winTeam, fileName);
         }
     }
 }
 
-void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex) {
+void UseCase_PlayMusicForClient(int client, int winTeam, const char[] fileName) {
     if (!Settings_IsPlayWinMusic(client)) {
         return;
     }
@@ -42,13 +45,9 @@ void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex) {
     bool areSoundsDownloaded = Settings_AreSoundsDownloaded(client);
 
     if (playCustomMusic && areSoundsDownloaded) {
-        char fileName[PLATFORM_MAX_PATH];
-
-        SoundList_Get(soundIndex, fileName);
         Sound_PlayCustomMusic(client, fileName);
 
         if (Variable_ShowSongName()) {
-            String_RemoveFileExtension(fileName);
             Message_NowPlaying(client, fileName);
         }
     } else {
@@ -69,15 +68,10 @@ void UseCase_PlayMusicManuallyForAll(int client, int soundIndex) {
         }
     }
 
-    String_RemoveFileExtension(fileName);
     Message_PlayedMusicForAll(client, fileName);
 }
 
-void UseCase_PlayMusicManuallyForClient(int client, int target, int soundIndex) {
-    char fileName[PLATFORM_MAX_PATH];
-
-    SoundList_Get(soundIndex, fileName);
-    String_RemoveFileExtension(fileName);
+void UseCase_PlayMusicManuallyForClient(int client, int target, const char[] fileName) {
     Sound_PlayCustomMusic(target, fileName);
     Message_PlayedMusicForClient(client, target, fileName);
 }

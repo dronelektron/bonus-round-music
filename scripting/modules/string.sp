@@ -9,8 +9,8 @@ bool String_IsEmpty(const char[] string) {
     return string[0] == NULL_CHARACTER;
 }
 
-void String_RemoveFileExtension(char[] fileName) {
-    int lastIndex = strlen(fileName) - strlen(EXTENSION_MP3);
+void String_RemoveFileExtension(const char[] fullName, char[] partialName) {
+    int length = strlen(fullName) - strlen(EXTENSION_MP3) + 1;
 
-    fileName[lastIndex] = NULL_CHARACTER;
+    strcopy(partialName, length, fullName);
 }
