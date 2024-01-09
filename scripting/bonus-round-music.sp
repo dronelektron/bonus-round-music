@@ -4,10 +4,12 @@
 
 #include "morecolors"
 
+#include "brm/console-variable"
 #include "brm/cookie"
 #include "brm/menu"
 #include "brm/message"
 #include "brm/settings"
+#include "brm/sound-list"
 #include "brm/sound"
 #include "brm/use-case"
 
@@ -17,10 +19,10 @@
 #include "modules/event.sp"
 #include "modules/menu.sp"
 #include "modules/message.sp"
-#include "modules/random.sp"
 #include "modules/settings.sp"
 #include "modules/sound-list.sp"
 #include "modules/sound.sp"
+#include "modules/string.sp"
 #include "modules/use-case.sp"
 
 #define AUTO_CREATE_YES true
@@ -28,8 +30,8 @@
 public Plugin myinfo = {
     name = "Bonus round music",
     author = "Dron-elektron",
-    description = "Allows you to play custom music at the end of the round",
-    version = "1.3.0",
+    description = "Allows you to play custom music at the end of the round or manually",
+    version = "1.4.0",
     url = "https://github.com/dronelektron/bonus-round-music"
 };
 
@@ -50,7 +52,7 @@ public void OnConfigsExecuted() {
 }
 
 public void OnClientConnected(int client) {
-    Sound_ResetLastIndex(client);
+    Sound_ResetLastFileName(client);
 }
 
 public void OnClientPostAdminCheck(int client) {

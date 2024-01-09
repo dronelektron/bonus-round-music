@@ -1,5 +1,8 @@
 void Message_NowPlaying(int client, const char[] fileName) {
-    CPrintToChat(client, "%t%t", PREFIX_COLORED, "Now playing", fileName);
+    char partialName[PLATFORM_MAX_PATH];
+
+    String_RemoveFileExtension(fileName, partialName);
+    CPrintToChat(client, "%t%t", PREFIX_COLORED, "Now playing", partialName);
 }
 
 void Message_PlayerIsNoLongerAvailable(int client) {
@@ -7,13 +10,19 @@ void Message_PlayerIsNoLongerAvailable(int client) {
 }
 
 void Message_PlayedMusicForAll(int client, const char[] fileName) {
-    ShowActivity2(client, PREFIX, "%t", "Played music for all", fileName);
-    LogMessage("\"%L\" played '%s' for all players", client, fileName);
+    char partialName[PLATFORM_MAX_PATH];
+
+    String_RemoveFileExtension(fileName, partialName);
+    ShowActivity2(client, PREFIX, "%t", "Played music for all", partialName);
+    LogMessage("\"%L\" played '%s' for all players", client, partialName);
 }
 
 void Message_PlayedMusicForClient(int client, int target, const char[] fileName) {
-    ShowActivity2(client, PREFIX, "%t", "Played music for client", fileName, target);
-    LogMessage("\"%L\" played '%s' for \"%L\"", client, fileName, target);
+    char partialName[PLATFORM_MAX_PATH];
+
+    String_RemoveFileExtension(fileName, partialName);
+    ShowActivity2(client, PREFIX, "%t", "Played music for client", partialName, target);
+    LogMessage("\"%L\" played '%s' for \"%L\"", client, partialName, target);
 }
 
 void Message_StoppedMusicForAll(int client) {

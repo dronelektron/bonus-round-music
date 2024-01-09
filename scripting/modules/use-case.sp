@@ -14,17 +14,28 @@ void UseCase_QueryPlayWinMusic() {
 }
 
 void UseCase_PlayMusic(int winTeam) {
-    int soundIndex = Random_GetRandomIndex();
-    bool showSongName = Variable_ShowSongName();
+    if (SoundList_Size(LIST_SOUNDS_ALL) == 0) {
+        return;
+    }
+
+    if (SoundList_Size(LIST_SOUNDS_LEFT) == 0) {
+        SoundList_Clear(LIST_SOUNDS_PLAYED);
+        UseCase_MarkAllSoundsAsLeft();
+    }
+
+    char fileName[PLATFORM_MAX_PATH];
+
+    UseCase_GetNextSound(fileName);
+    UseCase_MarkSoundAsPlayed(fileName);
 
     for (int client = 1; client <= MaxClients; client++) {
         if (IsClientInGame(client)) {
-            UseCase_PlayMusicForClient(client, winTeam, soundIndex, showSongName);
+            UseCase_PlayMusicForClient(client, winTeam, fileName);
         }
     }
 }
 
-void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex, bool showSongName) {
+void UseCase_PlayMusicForClient(int client, int winTeam, const char[] fileName) {
     if (!Settings_IsPlayWinMusic(client)) {
         return;
     }
@@ -37,13 +48,9 @@ void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex, bool sh
     bool areSoundsDownloaded = Settings_AreSoundsDownloaded(client);
 
     if (playCustomMusic && areSoundsDownloaded) {
-        Sound_PlayCustomMusic(client, soundIndex);
+        Sound_PlayCustomMusic(client, fileName);
 
-        if (showSongName) {
-            char fileName[PLATFORM_MAX_PATH];
-
-            SoundList_Get(soundIndex, fileName);
-            UseCase_RemoveFileExtension(fileName);
+        if (Variable_ChatSongName()) {
             Message_NowPlaying(client, fileName);
         }
     } else {
@@ -51,28 +58,20 @@ void UseCase_PlayMusicForClient(int client, int winTeam, int soundIndex, bool sh
     }
 }
 
-void UseCase_PlayMusicManuallyForAll(int client, int soundIndex) {
+void UseCase_PlayMusicManuallyForAll(int client, const char[] fileName) {
     for (int target = 1; target <= MaxClients; target++) {
         bool areSoundsDownloaded = Settings_AreSoundsDownloaded(target);
 
         if (IsClientInGame(target) && areSoundsDownloaded) {
-            Sound_PlayCustomMusic(target, soundIndex);
+            Sound_PlayCustomMusic(target, fileName);
         }
     }
 
-    char fileName[PLATFORM_MAX_PATH];
-
-    SoundList_Get(soundIndex, fileName);
-    UseCase_RemoveFileExtension(fileName);
     Message_PlayedMusicForAll(client, fileName);
 }
 
-void UseCase_PlayMusicManuallyForClient(int client, int target, int soundIndex) {
-    char fileName[PLATFORM_MAX_PATH];
-
-    SoundList_Get(soundIndex, fileName);
-    UseCase_RemoveFileExtension(fileName);
-    Sound_PlayCustomMusic(target, soundIndex);
+void UseCase_PlayMusicManuallyForClient(int client, int target, const char[] fileName) {
+    Sound_PlayCustomMusic(target, fileName);
     Message_PlayedMusicForClient(client, target, fileName);
 }
 
@@ -99,16 +98,23 @@ void UseCase_FindMusic() {
     Sound_GetMusicPath(musicPath);
 
     DirectoryListing directory = OpenDirectory(musicPath);
+
+    if (directory == null) {
+        LogError("Path for music '%s' does not exists", musicPath);
+
+        return;
+    }
+
     char fileName[PLATFORM_MAX_PATH];
     FileType fileType;
-    ArrayList previousList = SoundList_Clone();
 
-    SoundList_Clear();
+    SoundList_Clear(LIST_SOUNDS_ALL);
+    UseCase_UpdateSoundHistory();
     LogMessage("Path for music '%s'", musicPath);
 
     while (directory.GetNext(fileName, sizeof(fileName), fileType)) {
         bool isDirectory = fileType == FileType_Directory;
-        bool isNotMp3 = !UseCase_StringEndsWith(fileName, EXTENSION_MP3);
+        bool isNotMp3 = !String_EndsWith(fileName, EXTENSION_MP3);
 
         if (isDirectory || isNotMp3) {
             continue;
@@ -116,61 +122,64 @@ void UseCase_FindMusic() {
 
         Sound_AddToDownloads(fileName);
         Sound_Precache(fileName);
-        SoundList_Add(fileName);
+        SoundList_Add(LIST_SOUNDS_ALL, fileName);
     }
 
     CloseHandle(directory);
-    SoundList_Sort();
+    SoundList_Sort(LIST_SOUNDS_ALL);
+    UseCase_MarkAllSoundsAsLeft();
+    SoundList_Sort(LIST_SOUNDS_LEFT);
 
-    int soundsAmount = SoundList_Size();
-    ArrayList currentList = SoundList_Clone();
+    int soundsAmount = SoundList_Size(LIST_SOUNDS_ALL);
 
     if (soundsAmount == 0) {
         LogMessage("Files not found");
     } else {
         LogMessage("Loaded %d files", soundsAmount);
+    }
+}
 
-        if (!UseCase_AreSoundListsEqual(previousList, currentList)) {
-            Random_Create(soundsAmount);
-        }
+void UseCase_MarkAllSoundsAsLeft() {
+    char fileName[PLATFORM_MAX_PATH];
+
+    for (int i = 0; i < SoundList_Size(LIST_SOUNDS_ALL); i++) {
+        SoundList_Get(LIST_SOUNDS_ALL, i, fileName);
+        UseCase_MarkSoundAsLeft(fileName);
+    }
+}
+
+void UseCase_MarkSoundAsLeft(const char[] fileName) {
+    if (SoundList_Exists(LIST_SOUNDS_LEFT, fileName)) {
+        return;
     }
 
-    delete previousList;
-    delete currentList;
-}
-
-bool UseCase_StringEndsWith(const char[] string, const char[] subString) {
-    int index = StrContains(string, subString);
-
-    return index == strlen(string) - strlen(subString);
-}
-
-bool UseCase_IsStringEmpty(const char[] string) {
-    return string[0] == NULL_CHARACTER;
-}
-
-void UseCase_RemoveFileExtension(char[] fileName) {
-    int lastIndex = strlen(fileName) - strlen(EXTENSION_MP3);
-
-    fileName[lastIndex] = '\0';
-}
-
-bool UseCase_AreSoundListsEqual(ArrayList previousList, ArrayList currentList) {
-    if (previousList.Length != currentList.Length) {
-        return false;
+    if (SoundList_Exists(LIST_SOUNDS_PLAYED, fileName)) {
+        return;
     }
 
-    char previousFileName[PLATFORM_MAX_PATH];
-    char currentFileName[PLATFORM_MAX_PATH];
+    SoundList_Add(LIST_SOUNDS_LEFT, fileName);
+}
 
-    for (int i = 0; i < previousList.Length; i++) {
-        previousList.GetString(i, previousFileName, PLATFORM_MAX_PATH);
-        currentList.GetString(i, currentFileName, PLATFORM_MAX_PATH);
+void UseCase_MarkSoundAsPlayed(const char[] fileName) {
+    SoundList_RemoveByName(LIST_SOUNDS_LEFT, fileName);
+    SoundList_Add(LIST_SOUNDS_PLAYED, fileName);
+}
 
-        if (strcmp(previousFileName, currentFileName) != 0) {
-            return false;
-        }
+void UseCase_UpdateSoundHistory() {
+    if (Variable_HistoryMode() == HISTORY_MODE_MAP) {
+        SoundList_Clear(LIST_SOUNDS_LEFT);
+        SoundList_Clear(LIST_SOUNDS_PLAYED);
+    }
+}
+
+void UseCase_GetNextSound(char[] fileName) {
+    int soundIndex = 0;
+
+    if (Variable_PlaybackOrder() != PLAYBACK_ORDER_SEQUENCE) {
+        int soundsAmount = SoundList_Size(LIST_SOUNDS_LEFT);
+
+        soundIndex = GetRandomInt(0, soundsAmount - 1);
     }
 
-    return true;
+    SoundList_Get(LIST_SOUNDS_LEFT, soundIndex, fileName);
 }
