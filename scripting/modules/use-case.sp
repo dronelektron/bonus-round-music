@@ -98,6 +98,13 @@ void UseCase_FindMusic() {
     Sound_GetMusicPath(musicPath);
 
     DirectoryListing directory = OpenDirectory(musicPath);
+
+    if (directory == null) {
+        LogError("Path for music '%s' does not exists", musicPath);
+
+        return;
+    }
+
     char fileName[PLATFORM_MAX_PATH];
     FileType fileType;
 
