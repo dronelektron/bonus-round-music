@@ -102,6 +102,7 @@ void UseCase_FindMusic() {
     FileType fileType;
 
     SoundList_Clear(LIST_SOUNDS_ALL);
+    UseCase_UpdateSoundHistory();
     LogMessage("Path for music '%s'", musicPath);
 
     while (directory.GetNext(fileName, sizeof(fileName), fileType)) {
@@ -155,6 +156,13 @@ void UseCase_MarkSoundAsLeft(const char[] fileName) {
 void UseCase_MarkSoundAsPlayed(const char[] fileName) {
     SoundList_RemoveByName(LIST_SOUNDS_LEFT, fileName);
     SoundList_Add(LIST_SOUNDS_PLAYED, fileName);
+}
+
+void UseCase_UpdateSoundHistory() {
+    if (Variable_HistoryMode() == HISTORY_MODE_MAP) {
+        SoundList_Clear(LIST_SOUNDS_LEFT);
+        SoundList_Clear(LIST_SOUNDS_PLAYED);
+    }
 }
 
 void UseCase_GetNextSound(char[] fileName) {

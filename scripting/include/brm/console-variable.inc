@@ -4,3 +4,5 @@
 #define _brm_console_variable_included
 
 #define PLAYBACK_ORDER_SEQUENCE 0
+
+#define HISTORY_MODE_MAP 0
