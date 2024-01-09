@@ -1,6 +1,6 @@
 # Bonus round music
 
-Allows you to play custom music at the end of the round
+Allows you to play custom music at the end of the round or manually
 
 ### Supported Games
 
