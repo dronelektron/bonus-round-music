@@ -13,7 +13,7 @@ Allows you to play custom music at the end of the round
 
 ### Console Variables
 
-* sm_bonusroundmusic_music_path - Path to music without the `sound` folder [default: "brm"]
+* sm_bonusroundmusic_path - Path to music without the `sound` folder [default: "brm"]
 * sm_bonusroundmusic_show_song_name - Show song name [default: "1"]
 
 ### Console Commands
