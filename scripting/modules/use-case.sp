@@ -50,7 +50,7 @@ void UseCase_PlayMusicForClient(int client, int winTeam, const char[] fileName) 
     if (playCustomMusic && areSoundsDownloaded) {
         Sound_PlayCustomMusic(client, fileName);
 
-        if (Variable_ShowSongName()) {
+        if (Variable_ChatSongName()) {
             Message_NowPlaying(client, fileName);
         }
     } else {
