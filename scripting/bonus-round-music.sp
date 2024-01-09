@@ -4,6 +4,7 @@
 
 #include "morecolors"
 
+#include "brm/console-variable"
 #include "brm/cookie"
 #include "brm/menu"
 #include "brm/message"

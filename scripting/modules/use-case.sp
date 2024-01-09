@@ -18,19 +18,14 @@ void UseCase_PlayMusic(int winTeam) {
         return;
     }
 
-    int soundsAmount = SoundList_Size(LIST_SOUNDS_LEFT);
-
-    if (soundsAmount == 0) {
+    if (SoundList_Size(LIST_SOUNDS_LEFT) == 0) {
         SoundList_Clear(LIST_SOUNDS_PLAYED);
         UseCase_MarkAllSoundsAsLeft();
-
-        soundsAmount = SoundList_Size(LIST_SOUNDS_LEFT);
     }
 
-    int soundIndex = GetRandomInt(0, soundsAmount - 1);
     char fileName[PLATFORM_MAX_PATH];
 
-    SoundList_Get(LIST_SOUNDS_LEFT, soundIndex, fileName);
+    UseCase_GetNextSound(fileName);
     UseCase_MarkSoundAsPlayed(fileName);
 
     for (int client = 1; client <= MaxClients; client++) {
@@ -160,4 +155,16 @@ void UseCase_MarkSoundAsLeft(const char[] fileName) {
 void UseCase_MarkSoundAsPlayed(const char[] fileName) {
     SoundList_RemoveByName(LIST_SOUNDS_LEFT, fileName);
     SoundList_Add(LIST_SOUNDS_PLAYED, fileName);
+}
+
+void UseCase_GetNextSound(char[] fileName) {
+    int soundIndex = 0;
+
+    if (Variable_PlaybackOrder() != PLAYBACK_ORDER_SEQUENCE) {
+        int soundsAmount = SoundList_Size(LIST_SOUNDS_LEFT);
+
+        soundIndex = GetRandomInt(0, soundsAmount - 1);
+    }
+
+    SoundList_Get(LIST_SOUNDS_LEFT, soundIndex, fileName);
 }
