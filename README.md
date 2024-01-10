@@ -33,7 +33,7 @@ Allows you to play custom music at the end of the round or manually
 * Sampling frequency: 44.1 kHz
 * Bitrate: 128 kbps
 * Audio track does not contain any sound effects
-* Audio track does not contain any `ID3` fields (metadata)
+* Audio track does not contain any `ID3` fields
 
 ### Notes
 
@@ -41,3 +41,9 @@ Allows you to play custom music at the end of the round or manually
 * The new version of the file must have a different name
 * Use `dod_playwinmusic` to enable/disable music at the end of the round
 * Use `!settings` to control the type of music (default or custom)
+
+### History Mode
+
+* `map` - store sounds history until map change
+* `reboot` - store sounds histroy until server reboot
+* `file` - store sounds history in file
