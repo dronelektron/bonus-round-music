@@ -45,5 +45,5 @@ Allows you to play custom music at the end of the round or manually
 ### History Mode
 
 * `map` - store sounds history until map change
-* `reboot` - store sounds histroy until server reboot
+* `reboot` - store sounds history until server reboot
 * `file` - store sounds history in file
