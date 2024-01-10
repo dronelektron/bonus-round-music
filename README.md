@@ -16,7 +16,7 @@ Allows you to play custom music at the end of the round or manually
 * sm_bonusroundmusic_path - Path to music without the `sound` folder [default: "brm"]
 * sm_bonusroundmusic_chat_song_name - Show (yes - 1, no - 0) song name in chat [default: "1"]
 * sm_bonusroundmusic_playback_order - Playback order (sequence - 0, random - 1) [default: "1"]
-* sm_bonusroundmusic_history_mode - How long to store song history (map - 0, reboot - 1) [default: "1"]
+* sm_bonusroundmusic_history_mode - How long to store song history (map - 0, reboot - 1, file - 2) [default: "2"]
 
 ### Console Commands
 
@@ -33,7 +33,7 @@ Allows you to play custom music at the end of the round or manually
 * Sampling frequency: 44.1 kHz
 * Bitrate: 128 kbps
 * Audio track does not contain any sound effects
-* Audio track does not contain any `ID3` fields (metadata)
+* Audio track does not contain any `ID3` fields
 
 ### Notes
 
@@ -41,3 +41,9 @@ Allows you to play custom music at the end of the round or manually
 * The new version of the file must have a different name
 * Use `dod_playwinmusic` to enable/disable music at the end of the round
 * Use `!settings` to control the type of music (default or custom)
+
+### History Mode
+
+* `map` - store sounds history until map change
+* `reboot` - store sounds history until server reboot
+* `file` - store sounds history in file
