@@ -11,6 +11,7 @@
 #include "brm/settings"
 #include "brm/sound-list"
 #include "brm/sound"
+#include "brm/storage"
 #include "brm/use-case"
 
 #include "modules/console-command.sp"
@@ -22,6 +23,7 @@
 #include "modules/settings.sp"
 #include "modules/sound-list.sp"
 #include "modules/sound.sp"
+#include "modules/storage.sp"
 #include "modules/string.sp"
 #include "modules/use-case.sp"
 
@@ -42,6 +44,7 @@ public void OnPluginStart() {
     Event_Create();
     Menu_AddToPreferences();
     SoundList_Create();
+    Storage_BuildHistoryPath();
     CookieLateLoad();
     LoadTranslations("bonus-round-music.phrases");
     AutoExecConfig(AUTO_CREATE_YES, "bonus-round-music");
@@ -49,6 +52,10 @@ public void OnPluginStart() {
 
 public void OnConfigsExecuted() {
     UseCase_FindMusic();
+}
+
+public void OnMapEnd() {
+    UseCase_SaveSoundHistory();
 }
 
 public void OnClientConnected(int client) {

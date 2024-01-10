@@ -166,9 +166,36 @@ void UseCase_MarkSoundAsPlayed(const char[] fileName) {
 }
 
 void UseCase_UpdateSoundHistory() {
-    if (Variable_HistoryMode() == HISTORY_MODE_MAP) {
-        SoundList_Clear(LIST_SOUNDS_LEFT);
-        SoundList_Clear(LIST_SOUNDS_PLAYED);
+    int historyMode = Variable_HistoryMode();
+
+    if (historyMode == HISTORY_MODE_MAP) {
+        UseCase_ClearSoundLists();
+    } else if (historyMode == HISTORY_MODE_FILE) {
+        UseCase_ClearSoundLists();
+        Storage_LoadSoundHistory();
+
+        int soundsAmount = SoundList_Size(LIST_SOUNDS_PLAYED);
+
+        if (soundsAmount > 0) {
+            LogMessage("Loaded %d sounds from history file", soundsAmount);
+        }
+    }
+}
+
+void UseCase_ClearSoundLists() {
+    SoundList_Clear(LIST_SOUNDS_LEFT);
+    SoundList_Clear(LIST_SOUNDS_PLAYED);
+}
+
+void UseCase_SaveSoundHistory() {
+    if (Variable_HistoryMode() == HISTORY_MODE_FILE) {
+        Storage_SaveSoundHistory();
+
+        int soundsAmount = SoundList_Size(LIST_SOUNDS_PLAYED);
+
+        if (soundsAmount > 0) {
+            LogMessage("Saved %d sounds to history file", soundsAmount);
+        }
     }
 }
 

@@ -16,7 +16,7 @@ Allows you to play custom music at the end of the round or manually
 * sm_bonusroundmusic_path - Path to music without the `sound` folder [default: "brm"]
 * sm_bonusroundmusic_chat_song_name - Show (yes - 1, no - 0) song name in chat [default: "1"]
 * sm_bonusroundmusic_playback_order - Playback order (sequence - 0, random - 1) [default: "1"]
-* sm_bonusroundmusic_history_mode - How long to store song history (map - 0, reboot - 1) [default: "1"]
+* sm_bonusroundmusic_history_mode - How long to store song history (map - 0, reboot - 1, file - 2) [default: "2"]
 
 ### Console Commands
 
