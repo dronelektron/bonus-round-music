@@ -2,7 +2,7 @@ void Message_NowPlaying(int client, const char[] fileName) {
     char partialName[PLATFORM_MAX_PATH];
 
     String_RemoveFileExtension(fileName, partialName);
-    CPrintToChat(client, "%t%t", PREFIX_COLORED, "Now playing", partialName);
+    PrintToChat(client, COLOR_DEFAULT ... "%t%t", PREFIX_COLORED, "Now playing", partialName);
 }
 
 void Message_PlayerIsNoLongerAvailable(int client) {

@@ -1,7 +1,7 @@
-#if defined _brm_sound_included
+#if defined _bonus_round_music_sound_included
  #endinput
 #endif
-#define _brm_sound_included
+#define _bonus_round_music_sound_included
 
 #define PRELOAD_YES true
 #define SOUND_NAME_SIZE 16

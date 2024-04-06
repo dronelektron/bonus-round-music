@@ -2,17 +2,15 @@
 #include <sdktools>
 #include <clientprefs>
 
-#include "morecolors"
-
-#include "brm/console-variable"
-#include "brm/cookie"
-#include "brm/menu"
-#include "brm/message"
-#include "brm/settings"
-#include "brm/sound-list"
-#include "brm/sound"
-#include "brm/storage"
-#include "brm/use-case"
+#include "bonus-round-music/console-variable"
+#include "bonus-round-music/cookie"
+#include "bonus-round-music/menu"
+#include "bonus-round-music/message"
+#include "bonus-round-music/settings"
+#include "bonus-round-music/sound-list"
+#include "bonus-round-music/sound"
+#include "bonus-round-music/storage"
+#include "bonus-round-music/use-case"
 
 #include "modules/console-command.sp"
 #include "modules/console-variable.sp"
@@ -33,7 +31,7 @@ public Plugin myinfo = {
     name = "Bonus round music",
     author = "Dron-elektron",
     description = "Allows you to play custom music at the end of the round or manually",
-    version = "1.5.0",
+    version = "1.5.1",
     url = "https://github.com/dronelektron/bonus-round-music"
 };
 

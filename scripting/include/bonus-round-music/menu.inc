@@ -1,7 +1,7 @@
-#if defined _brm_menu_included
+#if defined _bonus_round_music_menu_included
  #endinput
 #endif
-#define _brm_menu_included
+#define _bonus_round_music_menu_included
 
 #define INFO_SIZE 32
 #define ITEM_SIZE 256

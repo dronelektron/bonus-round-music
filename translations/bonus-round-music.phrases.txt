@@ -1,14 +1,14 @@
 "Phrases"
 {
-    "Prefix"
+    "Prefix colored"
     {
-        "en"    "{haunted}[Bonus round music]{default} "
+        "en"    "38F3AB[Bonus round music] "
     }
 
     "Now playing"
     {
         "#format"   "{1:s}"
-        "en"    "Now playing {wheat}{1}"
+        "en"    "Now playing F5DEB3{1}"
     }
 
     "Player is no longer available"
