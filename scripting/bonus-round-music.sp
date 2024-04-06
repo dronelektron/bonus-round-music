@@ -2,8 +2,6 @@
 #include <sdktools>
 #include <clientprefs>
 
-#include "morecolors"
-
 #include "brm/console-variable"
 #include "brm/cookie"
 #include "brm/menu"

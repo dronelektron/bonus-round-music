@@ -2,7 +2,7 @@
 {
     "Now playing"
     {
-        "ru"    "Сейчас играет {wheat}{1}"
+        "ru"    "Сейчас играет F5DEB3{1}"
     }
 
     "Player is no longer available"

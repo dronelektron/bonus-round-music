@@ -3,5 +3,7 @@
 #endif
 #define _brm_message_included
 
+#define COLOR_DEFAULT "\x01"
+
 #define PREFIX "[Bonus round music] "
-#define PREFIX_COLORED "Prefix"
+#define PREFIX_COLORED "Prefix colored"
