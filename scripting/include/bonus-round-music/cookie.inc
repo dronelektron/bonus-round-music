@@ -1,7 +1,7 @@
-#if defined _brm_cookie_included
+#if defined _bonus_round_music_cookie_included
  #endinput
 #endif
-#define _brm_cookie_included
+#define _bonus_round_music_cookie_included
 
 #define NULL_CHARACTER '\0'
 
